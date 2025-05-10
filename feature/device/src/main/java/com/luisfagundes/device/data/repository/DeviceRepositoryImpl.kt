@@ -43,7 +43,7 @@ class DeviceRepositoryImpl @Inject constructor(
             if (InetAddress.getByName(ip).isReachable(TIME_OUT_MILLIS)) {
                 val hostName = try {
                     InetAddress.getByName(ip).canonicalHostName
-                } catch (_: Exception) { ip }
+                } catch (_: Exception) { "" }
 
                 devicesFound += Device(ip, hostName)
             }

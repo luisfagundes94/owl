@@ -29,7 +29,10 @@ class DeviceRepositoryImpl @Inject constructor(
             return@flow
         }
 
-        val localIp = ipv4Info.address.hostAddress
+        val localIp = ipv4Info.address.hostAddress ?: run {
+            emit(emptyList())
+            return@flow
+        }
         val prefix = ipv4Info.prefixLength
         val subnet = calculateSubnet(localIp, prefix)
         val ipsToScan = generateIpRange(subnet, prefix)

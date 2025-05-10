@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">owl</string>
+    <string name="arrow_back_content_description">go back</string>
+</resources>

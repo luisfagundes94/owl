@@ -24,7 +24,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "owl"
 
 include(":app")
-include(":feature:devices")
+include(":feature:device")
 include(":feature:history")
 include(":feature:discover")
 include(":designsystem")

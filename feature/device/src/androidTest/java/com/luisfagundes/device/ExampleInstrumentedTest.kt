@@ -1,4 +1,4 @@
-package com.luisfagundes.devices
+package com.luisfagundes.device
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

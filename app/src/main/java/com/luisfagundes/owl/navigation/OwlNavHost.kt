@@ -4,8 +4,8 @@ package com.luisfagundes.owl.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import com.luisfagundes.devices.navigation.DevicesRoute
-import com.luisfagundes.devices.navigation.devicesScreen
+import com.luisfagundes.device.navigation.DeviceListRoute
+import com.luisfagundes.device.navigation.deviceListScreen
 import com.luisfagundes.discover.navigation.discoverScreen
 import com.luisfagundes.history.navigation.historyScreen
 import com.luisfagundes.owl.ui.OwlAppState
@@ -19,10 +19,10 @@ fun OwlNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = DevicesRoute,
+        startDestination = DeviceListRoute,
         modifier = modifier,
     ) {
-        devicesScreen()
+        deviceListScreen()
         historyScreen()
         discoverScreen()
     }

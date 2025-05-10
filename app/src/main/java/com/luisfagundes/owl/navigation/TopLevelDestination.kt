@@ -18,9 +18,9 @@ enum class TopLevelDestination(
     DEVICES(
         unselectedIcon = Icons.Default.Devices,
         selectedIcon = Icons.Filled.Devices,
-        iconTextId = com.luisfagundes.devices.R.string.feature_devices_title,
-        titleTextId = com.luisfagundes.devices.R.string.feature_devices_title,
-        route = com.luisfagundes.devices.navigation.DevicesRoute::class
+        iconTextId = com.luisfagundes.device.R.string.feature_devices_title,
+        titleTextId = com.luisfagundes.device.R.string.feature_devices_title,
+        route = com.luisfagundes.device.navigation.DeviceListRoute::class
     ),
     HISTORY(
         unselectedIcon = Icons.Default.History,

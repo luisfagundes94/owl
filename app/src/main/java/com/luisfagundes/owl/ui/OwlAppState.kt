@@ -12,7 +12,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.luisfagundes.devices.navigation.navigateToDevices
+import com.luisfagundes.device.navigation.navigateToDeviceList
 import com.luisfagundes.discover.navigation.navigateToDiscover
 import com.luisfagundes.history.navigation.navigateToHistory
 import com.luisfagundes.owl.navigation.TopLevelDestination
@@ -75,7 +75,7 @@ class OwlAppState(
         }
 
         when (topLevelDestination) {
-            TopLevelDestination.DEVICES -> navController.navigateToDevices(topLevelNavOptions)
+            TopLevelDestination.DEVICES -> navController.navigateToDeviceList(topLevelNavOptions)
             TopLevelDestination.HISTORY -> navController.navigateToHistory(topLevelNavOptions)
             TopLevelDestination.DISCOVER -> navController.navigateToDiscover(topLevelNavOptions)
         }

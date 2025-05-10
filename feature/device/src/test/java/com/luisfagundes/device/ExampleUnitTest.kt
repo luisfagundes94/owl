@@ -1,4 +1,4 @@
-package com.luisfagundes.devices
+package com.luisfagundes.device
 
 import org.junit.Test
 

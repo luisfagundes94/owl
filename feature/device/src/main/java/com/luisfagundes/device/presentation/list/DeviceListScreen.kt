@@ -62,7 +62,7 @@ internal fun DeviceListScreen(
 
             is DeviceListUiState.Error -> Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = uiState.throwable.cause?.message ?: stringResource(
+                text = uiState.throwable.cause?.localizedMessage ?: stringResource(
                     id = R.string.device_list_generic_error
                 ),
                 style = MaterialTheme.typography.bodyLarge,

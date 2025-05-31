@@ -2,8 +2,8 @@ package com.luisfagundes.device.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisfagundes.device.domain.model.Device
 import com.luisfagundes.device.domain.usecase.GetDevicesUseCase
+import com.luisfagundes.domain.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

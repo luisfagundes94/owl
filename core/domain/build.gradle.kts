@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.luisfagundes.network"
+    namespace = "com.luisfagundes.domain"
     compileSdk = 35
 
     defaultConfig {
@@ -35,12 +33,6 @@ android {
 }
 
 dependencies {
-    // Modules
-    implementation(projects.core.domain)
-
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

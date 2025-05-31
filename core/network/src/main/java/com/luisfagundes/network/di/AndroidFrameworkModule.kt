@@ -1,4 +1,4 @@
-package com.luisfagundes.device.data.di
+package com.luisfagundes.network.di
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -11,13 +11,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataModule {
-
+object AndroidFrameworkModule {
     @Provides
     @Singleton
     fun provideConnectivityManager(
-        @ApplicationContext context: Context
-    ): ConnectivityManager {
-        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    }
+        @ApplicationContext appContext: Context
+    ): ConnectivityManager =
+        appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }

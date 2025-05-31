@@ -1,4 +1,4 @@
-package com.luisfagundes.device.domain.model
+package com.luisfagundes.domain.model
 
 data class Device(
     val ipAddress: String,

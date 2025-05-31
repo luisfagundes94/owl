@@ -1,7 +1,7 @@
 package com.luisfagundes.device.domain.usecase
 
-import com.luisfagundes.device.domain.model.Device
 import com.luisfagundes.device.domain.repository.DeviceRepository
+import com.luisfagundes.domain.model.Device
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

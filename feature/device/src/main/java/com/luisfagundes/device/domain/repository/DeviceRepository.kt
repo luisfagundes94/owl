@@ -1,6 +1,6 @@
 package com.luisfagundes.device.domain.repository
 
-import com.luisfagundes.device.domain.model.Device
+import com.luisfagundes.domain.model.Device
 import kotlinx.coroutines.flow.Flow
 
 interface DeviceRepository {

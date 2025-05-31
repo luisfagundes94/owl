@@ -74,6 +74,19 @@ internal fun DeviceListContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(16.dp),
     ) {
+        stickyHeader {
+            Text(
+                text = stringResource(
+                    id = R.string.found_devices,
+                    devices.size
+                ),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .fillMaxWidth(),
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
         items(
             items = devices,
             key = { it.ipAddress }

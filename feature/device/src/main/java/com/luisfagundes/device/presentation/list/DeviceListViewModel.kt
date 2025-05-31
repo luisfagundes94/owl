@@ -8,16 +8,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 sealed class DeviceListUiState {
-    object Loading : DeviceListUiState()
-    data class Success(val devices: List<Device>) : DeviceListUiState()
+    data class Success(val devices: List<Device> = emptyList()) : DeviceListUiState()
     data class Error(val throwable: Throwable) : DeviceListUiState()
+    data object Loading : DeviceListUiState()
 }
 
 @HiltViewModel
@@ -25,7 +24,7 @@ class DeviceListViewModel @Inject constructor(
     private val getDevicesUseCase: GetDevicesUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<DeviceListUiState>(DeviceListUiState.Loading)
+    private val _uiState = MutableStateFlow<DeviceListUiState>(DeviceListUiState.Success())
     val uiState: StateFlow<DeviceListUiState> = _uiState
 
     init {
@@ -34,12 +33,14 @@ class DeviceListViewModel @Inject constructor(
 
     fun getConnectedDevices() = viewModelScope.launch {
         getDevicesUseCase.invoke()
-            .onEach { devices ->
-                _uiState.value = DeviceListUiState.Success(devices)
+            .onStart {
+                _uiState.value = DeviceListUiState.Loading
             }
             .catch { error ->
                 _uiState.value  = DeviceListUiState.Error(error)
             }
-            .collect()
+            .collect { devices ->
+                _uiState.value = DeviceListUiState.Success(devices)
+            }
     }
 }

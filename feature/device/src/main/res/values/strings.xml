@@ -3,4 +3,7 @@
     <string name="feature_devices_title">Devices</string>
     <string name="device_list_generic_error">An unexpected error occurred</string>
     <string name="device_unknown">Unknown</string>
+    <string name="scanning_devices">Scanning</string>
+    <string name="found_devices">Found %1$s devices</string>
+    <string name="error_scanning_devices">Error scanning devices (%1$s)</string>
 </resources>

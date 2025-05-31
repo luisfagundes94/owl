@@ -1,6 +1,7 @@
 package com.luisfagundes.device.presentation.list
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -37,21 +39,28 @@ fun DeviceListRoute(
 internal fun DeviceListScreen(
     uiState: DeviceListUiState
 ) {
-    when (uiState) {
-        is DeviceListUiState.Loading -> CircularProgressIndicator(
-            modifier = Modifier.fillMaxSize()
-        )
-        is DeviceListUiState.Success -> DeviceListContent(
-            modifier = Modifier.fillMaxWidth(),
-            devices = uiState.devices
-        )
-        is DeviceListUiState.Error -> Text(
-            text = uiState.throwable.cause?.message ?: stringResource(
-                id =R.string.device_list_generic_error
-            ),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.error
-        )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        when (uiState) {
+            is DeviceListUiState.Loading -> CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+
+            is DeviceListUiState.Success -> DeviceListContent(
+                modifier = Modifier.fillMaxWidth(),
+                devices = uiState.devices
+            )
+
+            is DeviceListUiState.Error -> Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = uiState.throwable.cause?.message ?: stringResource(
+                    id = R.string.device_list_generic_error
+                ),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
     }
 }
 

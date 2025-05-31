@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.animation)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.lottie.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

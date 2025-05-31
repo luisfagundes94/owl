@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.rememberLottieDynamicProperties
+import com.airbnb.lottie.compose.rememberLottieDynamicProperty
 import com.luisfagundes.device.R
 import com.luisfagundes.domain.model.Device
 
@@ -43,11 +51,11 @@ internal fun DeviceListScreen(
         modifier = Modifier.fillMaxSize(),
     ) {
         when (uiState) {
-            is DeviceListUiState.Loading -> CircularProgressIndicator(
+            is DeviceListUiState.Loading -> ScanningAnimation(
                 modifier = Modifier.align(Alignment.Center)
             )
 
-            is DeviceListUiState.Success -> DeviceListContent(
+            is DeviceListUiState.Success -> FoundDevices(
                 modifier = Modifier.fillMaxWidth(),
                 devices = uiState.devices
             )
@@ -65,7 +73,7 @@ internal fun DeviceListScreen(
 }
 
 @Composable
-internal fun DeviceListContent(
+internal fun FoundDevices(
     modifier: Modifier = Modifier,
     devices: List<Device>
 ) {
@@ -124,6 +132,46 @@ internal fun DeviceCard(
                 text = device.ipAddress,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+private fun ScanningAnimation(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scanning))
+        val progress by animateLottieCompositionAsState(composition)
+        val dynamicProperties = rememberLottieDynamicProperties(
+            rememberLottieDynamicProperty(
+                property = LottieProperty.COLOR_FILTER,
+                value = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                    MaterialTheme.colorScheme.primary.hashCode(),
+                    BlendModeCompat.SRC_ATOP
+                ),
+                keyPath = arrayOf(
+                    "**"
+                )
+            )
+        )
+
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            dynamicProperties = dynamicProperties,
+        )
+
+        if (composition != null) {
+            Text(
+                text = stringResource(id = R.string.scanning_devices),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 16.dp)
             )
         }
     }

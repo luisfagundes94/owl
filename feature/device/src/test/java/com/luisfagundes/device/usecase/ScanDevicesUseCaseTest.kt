@@ -17,7 +17,7 @@ class ScanDevicesUseCaseTest {
     private val useCase = ScanDevicesUseCase(repository)
 
     @Test
-    fun returnsListOfDevicesWhenRepositoryReturnsDevices() = runTest {
+    fun `returns list of devices when repository returns devices`() = runTest {
         val devices = listOf(Device(
             ipAddress = "123123",
             hostName = "host1",
@@ -33,7 +33,7 @@ class ScanDevicesUseCaseTest {
     }
 
     @Test
-    fun returnsEmptyListWhenRepositoryReturnsEmptyList() = runTest {
+    fun `returns empty list when repository returns empty list`() = runTest {
         every { repository.scanDevices() } returns flowOf(emptyList())
 
         val result = useCase().toList()

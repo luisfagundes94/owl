@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -73,6 +74,46 @@ internal fun DeviceListScreen(
 }
 
 @Composable
+private fun ScanningAnimation(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scanning))
+        val progress by animateLottieCompositionAsState(composition)
+        val dynamicProperties = rememberLottieDynamicProperties(
+            rememberLottieDynamicProperty(
+                property = LottieProperty.COLOR_FILTER,
+                value = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+                    MaterialTheme.colorScheme.primary.hashCode(),
+                    BlendModeCompat.SRC_ATOP
+                ),
+                keyPath = arrayOf(
+                    "**"
+                )
+            )
+        )
+
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            dynamicProperties = dynamicProperties,
+        )
+
+        if (composition != null) {
+            Text(
+                text = stringResource(id = R.string.scanning_devices),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
+    }
+}
+
+@Composable
 internal fun FoundDevices(
     modifier: Modifier = Modifier,
     devices: List<Device>
@@ -84,8 +125,9 @@ internal fun FoundDevices(
     ) {
         stickyHeader {
             Text(
-                text = stringResource(
-                    id = R.string.found_devices,
+                text = pluralStringResource(
+                    id = R.plurals.found_devices,
+                    count = devices.size,
                     devices.size
                 ),
                 style = MaterialTheme.typography.headlineSmall,
@@ -132,46 +174,6 @@ internal fun DeviceCard(
                 text = device.ipAddress,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.primary
-            )
-        }
-    }
-}
-
-@Composable
-private fun ScanningAnimation(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scanning))
-        val progress by animateLottieCompositionAsState(composition)
-        val dynamicProperties = rememberLottieDynamicProperties(
-            rememberLottieDynamicProperty(
-                property = LottieProperty.COLOR_FILTER,
-                value = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-                    MaterialTheme.colorScheme.primary.hashCode(),
-                    BlendModeCompat.SRC_ATOP
-                ),
-                keyPath = arrayOf(
-                    "**"
-                )
-            )
-        )
-
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
-            dynamicProperties = dynamicProperties,
-        )
-
-        if (composition != null) {
-            Text(
-                text = stringResource(id = R.string.scanning_devices),
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(top = 16.dp)
             )
         }
     }

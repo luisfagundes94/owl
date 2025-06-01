@@ -4,6 +4,9 @@
     <string name="device_list_generic_error">An unexpected error occurred</string>
     <string name="device_unknown">Unknown</string>
     <string name="scanning_devices">Scanning Devices</string>
-    <string name="found_devices">Found %1$s devices</string>
+    <plurals name="found_devices">
+        <item quantity="one">Found %d device</item>
+        <item quantity="other">Found %d devices</item>
+    </plurals>
     <string name="error_scanning_devices">Error scanning devices (%1$s)</string>
 </resources>

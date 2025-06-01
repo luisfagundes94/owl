@@ -24,7 +24,7 @@ internal class DeviceListViewModel @Inject constructor(
     private val scanDevicesUseCase: ScanDevicesUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<DeviceListUiState>(DeviceListUiState.Success())
+    private val _uiState = MutableStateFlow<DeviceListUiState>(DeviceListUiState.Loading)
     val uiState: StateFlow<DeviceListUiState> = _uiState
 
     init {

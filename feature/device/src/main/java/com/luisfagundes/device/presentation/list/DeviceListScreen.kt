@@ -4,12 +4,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,13 +45,15 @@ fun DeviceListRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DeviceListScreen(
-        uiState = uiState
+        uiState = uiState,
+        onRefresh = viewModel::scanDevices
     )
 }
 
 @Composable
 internal fun DeviceListScreen(
-    uiState: DeviceListUiState
+    uiState: DeviceListUiState,
+    onRefresh: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -58,7 +65,8 @@ internal fun DeviceListScreen(
 
             is DeviceListUiState.Success -> FoundDevices(
                 modifier = Modifier.fillMaxWidth(),
-                devices = uiState.devices
+                devices = uiState.devices,
+                onRefresh = onRefresh
             )
 
             is DeviceListUiState.Error -> Text(
@@ -116,7 +124,8 @@ private fun ScanningAnimation(
 @Composable
 internal fun FoundDevices(
     modifier: Modifier = Modifier,
-    devices: List<Device>
+    devices: List<Device>,
+    onRefresh: () -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -124,18 +133,28 @@ internal fun FoundDevices(
         contentPadding = PaddingValues(MaterialTheme.spacing.default),
     ) {
         stickyHeader {
-            Text(
-                text = pluralStringResource(
-                    id = R.plurals.found_devices,
-                    count = devices.size,
-                    devices.size
-                ),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .padding(vertical = MaterialTheme.spacing.default)
-                    .fillMaxWidth(),
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = pluralStringResource(
+                        id = R.plurals.found_devices,
+                        count = devices.size,
+                        devices.size
+                    ),
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                IconButton(onClick = onRefresh) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = stringResource(id = R.string.refresh_devices),
+                    )
+                }
+            }
         }
         items(
             items = devices,

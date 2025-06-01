@@ -9,4 +9,5 @@
         <item quantity="other">Found %d devices</item>
     </plurals>
     <string name="error_scanning_devices">Error scanning devices (%1$s)</string>
+    <string name="refresh_devices">Refresh</string>
 </resources>

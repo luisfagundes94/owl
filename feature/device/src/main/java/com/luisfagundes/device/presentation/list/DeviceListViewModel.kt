@@ -2,7 +2,7 @@ package com.luisfagundes.device.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisfagundes.device.domain.usecase.GetDevicesUseCase
+import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.domain.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,18 +21,18 @@ sealed class DeviceListUiState {
 
 @HiltViewModel
 class DeviceListViewModel @Inject constructor(
-    private val getDevicesUseCase: GetDevicesUseCase
+    private val scanDevicesUseCase: ScanDevicesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DeviceListUiState>(DeviceListUiState.Success())
     val uiState: StateFlow<DeviceListUiState> = _uiState
 
     init {
-        getConnectedDevices()
+        scanDevices()
     }
 
-    fun getConnectedDevices() = viewModelScope.launch {
-        getDevicesUseCase.invoke()
+    fun scanDevices() = viewModelScope.launch {
+        scanDevicesUseCase.invoke()
             .onStart {
                 _uiState.value = DeviceListUiState.Loading
             }

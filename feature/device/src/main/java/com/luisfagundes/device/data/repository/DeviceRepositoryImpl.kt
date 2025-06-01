@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class DeviceRepositoryImpl @Inject constructor(
+internal class DeviceRepositoryImpl @Inject constructor(
     private val scanner: DeviceScanner
 ) : DeviceRepository {
     override fun scanDevices(): Flow<List<Device>> = flow {

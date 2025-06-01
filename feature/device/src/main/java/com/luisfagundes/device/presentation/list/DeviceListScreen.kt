@@ -39,7 +39,7 @@ import com.luisfagundes.device.R
 import com.luisfagundes.domain.model.Device
 
 @Composable
-fun DeviceListRoute(
+internal fun DeviceListRoute(
     viewModel: DeviceListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -51,7 +51,7 @@ fun DeviceListRoute(
 }
 
 @Composable
-internal fun DeviceListScreen(
+private fun DeviceListScreen(
     uiState: DeviceListUiState,
     onRefresh: () -> Unit
 ) {

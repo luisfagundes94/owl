@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ScannerModule {
+internal abstract class ScannerModule {
     @Binds
     @Singleton
     abstract fun bindDeviceScanner(

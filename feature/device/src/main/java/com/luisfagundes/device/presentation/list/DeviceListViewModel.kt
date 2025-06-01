@@ -13,14 +13,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-sealed class DeviceListUiState {
+internal sealed class DeviceListUiState {
     data class Success(val devices: List<Device> = emptyList()) : DeviceListUiState()
     data class Error(val throwable: Throwable) : DeviceListUiState()
     data object Loading : DeviceListUiState()
 }
 
 @HiltViewModel
-class DeviceListViewModel @Inject constructor(
+internal class DeviceListViewModel @Inject constructor(
     private val scanDevicesUseCase: ScanDevicesUseCase
 ) : ViewModel() {
 

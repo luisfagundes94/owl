@@ -19,7 +19,7 @@ import kotlin.collections.iterator
 private const val TIME_OUT_MILLIS = 300
 private const val PARALLELISM = 50
 
-class BruteForceScannerImpl @Inject constructor(
+internal class BruteForceScannerImpl @Inject constructor(
     private val connectivityManager: ConnectivityManager
 ) : DeviceScanner {
 

@@ -1,4 +1,4 @@
-package com.luisfagundes.network
+package com.luisfagundes.device.data.scanner
 
 fun calculateSubnet(ip: String, prefix: Int): String {
     // 1. Parse IP to 32-bit int

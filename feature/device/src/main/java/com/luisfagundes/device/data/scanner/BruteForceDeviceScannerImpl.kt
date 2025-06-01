@@ -4,8 +4,6 @@ import android.Manifest
 import android.net.ConnectivityManager
 import androidx.annotation.RequiresPermission
 import com.luisfagundes.domain.model.Device
-import com.luisfagundes.network.calculateSubnet
-import com.luisfagundes.network.generateIpRange
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers

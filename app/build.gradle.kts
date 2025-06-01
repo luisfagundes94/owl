@@ -44,6 +44,8 @@ android {
 
 dependencies {
     // Modules
+    implementation(projects.core.network)
+
     implementation(projects.feature.device)
     implementation(projects.feature.history)
     implementation(projects.feature.discover)

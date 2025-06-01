@@ -2,6 +2,8 @@ package com.luisfagundes.network.di
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.luisfagundes.network.monitor.NetworkMonitor
+import com.luisfagundes.network.monitor.NetworkMonitorImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +20,10 @@ object ConnectivityModule {
         @ApplicationContext appContext: Context
     ): ConnectivityManager =
         appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    @Provides
+    @Singleton
+    fun provideNetworkMonitor(
+        @ApplicationContext appContext: Context
+    ): NetworkMonitor = NetworkMonitorImpl(appContext)
 }

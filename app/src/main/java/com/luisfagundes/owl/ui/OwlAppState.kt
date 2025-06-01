@@ -15,21 +15,28 @@ import androidx.navigation.navOptions
 import com.luisfagundes.device.navigation.navigateToDeviceList
 import com.luisfagundes.discover.navigation.navigateToDiscover
 import com.luisfagundes.history.navigation.navigateToHistory
+import com.luisfagundes.network.monitor.NetworkMonitor
 import com.luisfagundes.owl.navigation.TopLevelDestination
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun rememberOwlAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
+    networkMonitor: NetworkMonitor
 ): OwlAppState {
     return remember(
         navController,
-        coroutineScope
+        coroutineScope,
+        networkMonitor,
     ) {
         OwlAppState(
             navController = navController,
-            coroutineScope = coroutineScope
+            coroutineScope = coroutineScope,
+            networkMonitor = networkMonitor
         )
     }
 }
@@ -37,6 +44,7 @@ fun rememberOwlAppState(
 @Stable
 class OwlAppState(
     val navController: NavHostController,
+    val networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope
 ) {
     private val previousDestination = mutableStateOf<NavDestination?>(null)
@@ -64,6 +72,14 @@ class OwlAppState(
 
     val shouldShowBottomBar: Boolean
         @Composable get() = currentTopLevelDestination != null
+
+    val isOffline = networkMonitor.isOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = coroutineScope,
+            started = WhileSubscribed(5_000),
+            initialValue = false
+        )
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
         val topLevelNavOptions = navOptions {

@@ -40,7 +40,7 @@ android {
     buildFeatures {
         compose = true
     }
-    packagingOptions {
+    packaging {
         resources {
             pickFirsts.addAll(
                 listOf(

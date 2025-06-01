@@ -17,7 +17,7 @@ import kotlinx.coroutines.coroutineScope
 private const val TIME_OUT_MILLIS = 300
 private const val PARALLELISM = 50
 
-internal class BruteForceScannerImpl @Inject constructor(
+internal class BruteForceDeviceScannerImpl @Inject constructor(
     private val connectivityManager: ConnectivityManager
 ) : DeviceScanner {
 

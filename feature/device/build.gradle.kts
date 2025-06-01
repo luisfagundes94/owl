@@ -40,6 +40,7 @@ dependencies {
     // Modules
     implementation(projects.core.network)
     implementation(projects.core.domain)
+    implementation(projects.core.designsystem)
 
     // Hilt
     implementation(libs.hilt.android)

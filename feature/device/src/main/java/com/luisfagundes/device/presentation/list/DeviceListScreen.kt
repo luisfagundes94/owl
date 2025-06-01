@@ -30,6 +30,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
+import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.device.R
 import com.luisfagundes.domain.model.Device
 
@@ -107,7 +108,7 @@ private fun ScanningAnimation(
             Text(
                 text = stringResource(id = R.string.scanning_devices),
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top = MaterialTheme.spacing.default)
             )
         }
     }
@@ -120,8 +121,8 @@ internal fun FoundDevices(
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+        contentPadding = PaddingValues(MaterialTheme.spacing.default),
     ) {
         stickyHeader {
             Text(
@@ -132,7 +133,7 @@ internal fun FoundDevices(
                 ),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = MaterialTheme.spacing.default)
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -160,7 +161,7 @@ internal fun DeviceCard(
         modifier = modifier
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(MaterialTheme.spacing.default),
         ) {
             Text(
                 text = if (device.hostName.isEmpty() || device.hostName == device.ipAddress) {

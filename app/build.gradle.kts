@@ -40,6 +40,16 @@ android {
     buildFeatures {
         compose = true
     }
+    packagingOptions {
+        resources {
+            pickFirsts.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md"
+                )
+            )
+        }
+    }
 }
 
 dependencies {

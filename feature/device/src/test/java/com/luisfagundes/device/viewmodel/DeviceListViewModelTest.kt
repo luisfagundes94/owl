@@ -1,7 +1,7 @@
 package com.luisfagundes.device.viewmodel
 
 import app.cash.turbine.test
-import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
+import com.luisfagundes.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.device.presentation.list.DeviceListUiState
 import com.luisfagundes.device.presentation.list.DeviceListViewModel
 import com.luisfagundes.domain.model.Device

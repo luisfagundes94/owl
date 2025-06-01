@@ -1,7 +1,7 @@
 package com.luisfagundes.device.data.repository
 
 import com.luisfagundes.device.data.scanner.DeviceScanner
-import com.luisfagundes.device.domain.repository.DeviceRepository
+import com.luisfagundes.domain.repository.DeviceRepository
 import com.luisfagundes.domain.model.Device
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers

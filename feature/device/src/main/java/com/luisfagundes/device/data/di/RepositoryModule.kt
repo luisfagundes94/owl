@@ -1,7 +1,7 @@
 package com.luisfagundes.device.data.di
 
 import com.luisfagundes.device.data.repository.DeviceRepositoryImpl
-import com.luisfagundes.device.domain.repository.DeviceRepository
+import com.luisfagundes.domain.repository.DeviceRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

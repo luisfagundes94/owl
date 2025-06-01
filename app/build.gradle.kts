@@ -48,7 +48,7 @@ dependencies {
     implementation(projects.feature.history)
     implementation(projects.feature.discover)
 
-    implementation(projects.designsystem)
+    implementation(projects.core.designsystem)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

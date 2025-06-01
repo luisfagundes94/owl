@@ -1,7 +1,7 @@
 package com.luisfagundes.device.usecase
 
-import com.luisfagundes.domain.repository.DeviceRepository
-import com.luisfagundes.domain.usecase.ScanDevicesUseCase
+import com.luisfagundes.device.domain.repository.DeviceRepository
+import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.domain.model.Device
 import io.mockk.every
 import io.mockk.mockk

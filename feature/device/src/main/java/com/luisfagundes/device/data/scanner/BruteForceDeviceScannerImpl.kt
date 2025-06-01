@@ -1,4 +1,4 @@
-package com.luisfagundes.network.scanner
+package com.luisfagundes.device.data.scanner
 
 import android.Manifest
 import android.net.ConnectivityManager
@@ -14,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.net.InetAddress
 import javax.inject.Inject
+import kotlin.collections.iterator
 
 private const val TIME_OUT_MILLIS = 300
 private const val PARALLELISM = 50

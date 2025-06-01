@@ -1,4 +1,4 @@
-package com.luisfagundes.network.scanner
+package com.luisfagundes.device.data.scanner
 
 import com.luisfagundes.domain.model.Device
 

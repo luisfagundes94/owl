@@ -1,7 +1,7 @@
-package com.luisfagundes.network.di
+package com.luisfagundes.device.data.di
 
-import com.luisfagundes.network.scanner.BruteForceScannerImpl
-import com.luisfagundes.network.scanner.DeviceScanner
+import com.luisfagundes.device.data.scanner.BruteForceScannerImpl
+import com.luisfagundes.device.data.scanner.DeviceScanner
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

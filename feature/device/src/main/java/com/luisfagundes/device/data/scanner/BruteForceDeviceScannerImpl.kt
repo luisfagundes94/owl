@@ -77,7 +77,11 @@ internal class BruteForceDeviceScannerImpl @Inject constructor(
                 } catch (_: Exception) {
                     ""
                 }
-                devicesFound += Device(ip, hostName)
+                devicesFound += Device(
+                    ipAddress = ip,
+                    hostName = hostName,
+                    isActive = true
+                )
             }
         }
 

@@ -18,14 +18,19 @@ class ScanDevicesUseCaseTest {
 
     @Test
     fun `returns list of devices when repository returns devices`() = runTest {
-        val devices = listOf(Device(
-            ipAddress = "123123",
-            hostName = "host1",
-        ), Device(
-            ipAddress = "1231234",
-            hostName = "host2",
-        ))
-        every {  repository.scanDevices() } returns flowOf(devices)
+        val devices = listOf(
+            Device(
+                ipAddress = "123123",
+                hostName = "host1",
+                isActive = true
+            ),
+            Device(
+                ipAddress = "1231234",
+                hostName = "host2",
+                isActive = false
+            )
+        )
+        every { repository.scanDevices() } returns flowOf(devices)
 
         val result = useCase().toList()
 

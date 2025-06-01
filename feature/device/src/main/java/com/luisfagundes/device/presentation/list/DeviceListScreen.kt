@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +33,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
+import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.device.R
 import com.luisfagundes.domain.model.Device
@@ -139,7 +139,9 @@ internal fun FoundDevices(
                 modifier = Modifier
                     .fillMaxWidth()
                     .animateItem(),
-                device = device
+                hostName = device.hostName,
+                ipAddress = device.ipAddress,
+                isActive = device.isActive
             )
         }
     }
@@ -166,31 +168,6 @@ private fun DeviceListHeader(deviceCount: Int, onRefresh: () -> Unit) {
             Icon(
                 imageVector = Icons.Default.Refresh,
                 contentDescription = stringResource(id = R.string.refresh_devices)
-            )
-        }
-    }
-}
-
-@Composable
-private fun DeviceCard(modifier: Modifier = Modifier, device: Device) {
-    Card(
-        modifier = modifier
-    ) {
-        Column(
-            modifier = Modifier.padding(MaterialTheme.spacing.default)
-        ) {
-            Text(
-                text = if (device.hostName.isEmpty() || device.hostName == device.ipAddress) {
-                    stringResource(R.string.device_unknown)
-                } else {
-                    device.hostName
-                },
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = device.ipAddress,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
             )
         }
     }

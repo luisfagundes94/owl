@@ -2,7 +2,6 @@
 <resources>
     <string name="feature_devices_title">Devices</string>
     <string name="device_list_generic_error">An unexpected error occurred</string>
-    <string name="device_unknown">Unknown</string>
     <string name="scanning_devices">Scanning Devices</string>
     <plurals name="found_devices">
         <item quantity="one">Found %d device</item>

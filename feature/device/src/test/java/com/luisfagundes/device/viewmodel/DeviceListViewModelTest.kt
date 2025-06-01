@@ -25,7 +25,7 @@ class DeviceListViewModelTest {
     @Test
     fun `emits Loading then Success when scan succeeds`() = runTest {
         // Given
-        val devices = listOf(Device("192.168.1.2", "host"))
+        val devices = listOf(Device("192.168.1.2", "host", true))
         coEvery { scanDevicesUseCase.invoke() } returns flow { emit(devices) }
 
         // When

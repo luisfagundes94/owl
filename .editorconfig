@@ -1,4 +1,9 @@
 root = true
 
 [*.{kt,kts}]
+ktlint_code_style=android_studio
 ktlint_function_naming_ignore_when_annotated_with=Composable
+# ktlint_standard_annotation = disabled
+# ktlint_standard_class_body-wrapping = disabled
+# ktlint_function_signature_body_expression_wrapping = default
+# ktlint_standard_blank-line-before-declaration = disabled

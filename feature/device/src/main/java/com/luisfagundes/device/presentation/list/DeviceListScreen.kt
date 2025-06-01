@@ -133,28 +133,10 @@ internal fun FoundDevices(
         contentPadding = PaddingValues(MaterialTheme.spacing.default),
     ) {
         stickyHeader {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = pluralStringResource(
-                        id = R.plurals.found_devices,
-                        count = devices.size,
-                        devices.size
-                    ),
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                IconButton(onClick = onRefresh) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = stringResource(id = R.string.refresh_devices),
-                    )
-                }
-            }
+            DeviceListHeader(
+                deviceCount = devices.size,
+                onRefresh = onRefresh
+            )
         }
         items(
             items = devices,
@@ -171,7 +153,36 @@ internal fun FoundDevices(
 }
 
 @Composable
-internal fun DeviceCard(
+private fun DeviceListHeader(
+    deviceCount: Int,
+    onRefresh: () -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = pluralStringResource(
+                id = R.plurals.found_devices,
+                count = deviceCount,
+                deviceCount
+            ),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        IconButton(onClick = onRefresh) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = stringResource(id = R.string.refresh_devices),
+            )
+        }
+    }
+}
+
+@Composable
+private fun DeviceCard(
     modifier: Modifier = Modifier,
     device: Device
 ) {

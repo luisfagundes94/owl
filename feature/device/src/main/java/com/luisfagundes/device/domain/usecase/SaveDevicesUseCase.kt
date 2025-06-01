@@ -2,8 +2,8 @@ package com.luisfagundes.device.domain.usecase
 
 import com.luisfagundes.domain.model.Device
 import com.luisfagundes.domain.repository.HistoryRepository
-import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
+import kotlinx.coroutines.flow.firstOrNull
 
 internal class SaveDevicesUseCase @Inject constructor(
     private val historyRepository: HistoryRepository

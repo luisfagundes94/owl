@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.luisfagundes.designsystem.R
 import com.luisfagundes.designsystem.theme.customColorPalette
@@ -66,7 +65,7 @@ fun DeviceCard(
                         .padding(MaterialTheme.spacing.default),
                     imageVector = Icons.Default.Circle,
                     contentDescription = stringResource(id = R.string.device_status),
-                    tint = MaterialTheme.customColorPalette.activeGreen,
+                    tint = MaterialTheme.customColorPalette.activeGreen
                 )
             }
         }

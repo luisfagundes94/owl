@@ -16,9 +16,7 @@ internal object DataModule {
 
     @Singleton
     @Provides
-    fun provideHistoryDatabase(
-        @ApplicationContext context: Context
-    ): HistoryDatabase {
+    fun provideHistoryDatabase(@ApplicationContext context: Context): HistoryDatabase {
         return Room.databaseBuilder(
             context,
             HistoryDatabase::class.java,

@@ -1,13 +1,13 @@
 package com.luisfagundes.history.data.repository
 
 import com.luisfagundes.domain.model.Device
+import com.luisfagundes.domain.repository.HistoryRepository
 import com.luisfagundes.history.data.dao.DeviceDao
 import com.luisfagundes.history.data.mapper.DeviceEntityMapper
 import com.luisfagundes.history.data.mapper.DeviceMapper
-import com.luisfagundes.domain.repository.HistoryRepository
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 internal class HistoryRepositoryImpl @Inject constructor(
     private val deviceDao: DeviceDao,

@@ -13,7 +13,5 @@ import javax.inject.Singleton
 internal abstract class RepositoryModule {
     @Singleton
     @Binds
-    abstract fun bindHistoryRepository(
-        repository: HistoryRepositoryImpl,
-    ): HistoryRepository
+    abstract fun bindHistoryRepository(repository: HistoryRepositoryImpl): HistoryRepository
 }

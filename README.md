@@ -1,4 +1,4 @@
-# Device Scanner Android App
+# Owl (Device Scanner Android App)
 
 A modern Android application for scanning and listing devices on the local network.
 

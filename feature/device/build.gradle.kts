@@ -40,6 +40,7 @@ dependencies {
     // Modules
     implementation(projects.core.domain)
     implementation(projects.core.designsystem)
+    implementation(projects.core.testing)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -64,7 +65,4 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

@@ -37,7 +37,7 @@ fun OwlTopAppBar(
                     Icon(
                         imageVector = navigationIcon,
                         contentDescription = navigationIconContentDescription,
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             },
@@ -53,7 +53,7 @@ fun OwlTopAppBar(
 private fun OwlTopAppBarPreview() {
     OwlTheme {
         OwlTopAppBar(
-            title = "Home",
+            title = "Home"
         )
     }
 }

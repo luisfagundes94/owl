@@ -1,6 +1,5 @@
 package com.luisfagundes.testing
 
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -17,7 +16,7 @@ import org.junit.runner.Description
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class MainDispatcherRule constructor(
-    private val testDispatcher: TestDispatcher = StandardTestDispatcher(),
+    private val testDispatcher: TestDispatcher = StandardTestDispatcher()
 ) : TestWatcher() {
     override fun starting(description: Description) = Dispatchers.setMain(testDispatcher)
 

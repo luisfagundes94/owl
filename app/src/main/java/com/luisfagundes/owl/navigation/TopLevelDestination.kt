@@ -13,7 +13,7 @@ enum class TopLevelDestination(
     val selectedIcon: ImageVector,
     @StringRes val iconTextId: Int,
     @StringRes val titleTextId: Int,
-    val route: KClass<*>,
+    val route: KClass<*>
 ) {
     DEVICES(
         unselectedIcon = Icons.Default.Devices,

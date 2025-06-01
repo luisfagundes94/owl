@@ -1,9 +1,9 @@
 package com.luisfagundes.network.wifi
 
 import android.net.wifi.WifiManager
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
 
 @Suppress("DEPRECATION")
 class AppWifiManager @Inject constructor(

@@ -5,13 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.domain.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
 
 internal sealed class DeviceListUiState {
     data class Success(val devices: List<Device> = emptyList()) : DeviceListUiState()
@@ -37,7 +36,7 @@ internal class DeviceListViewModel @Inject constructor(
                 _uiState.value = DeviceListUiState.Loading
             }
             .catch { error ->
-                _uiState.value  = DeviceListUiState.Error(error)
+                _uiState.value = DeviceListUiState.Error(error)
             }
             .collect { devices ->
                 _uiState.value = DeviceListUiState.Success(devices)

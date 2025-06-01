@@ -1,13 +1,13 @@
 package com.luisfagundes.device.data.repository
 
+import com.luisfagundes.device.data.scanner.DeviceScanner
 import com.luisfagundes.device.domain.repository.DeviceRepository
 import com.luisfagundes.domain.model.Device
-import com.luisfagundes.device.data.scanner.DeviceScanner
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
 
 internal class DeviceRepositoryImpl @Inject constructor(
     private val scanner: DeviceScanner

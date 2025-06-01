@@ -4,15 +4,15 @@ import android.Manifest
 import android.net.ConnectivityManager
 import androidx.annotation.RequiresPermission
 import com.luisfagundes.domain.model.Device
+import java.net.InetAddress
+import javax.inject.Inject
+import kotlin.collections.iterator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import java.net.InetAddress
-import javax.inject.Inject
-import kotlin.collections.iterator
 
 private const val TIME_OUT_MILLIS = 300
 private const val PARALLELISM = 50
@@ -25,7 +25,7 @@ internal class BruteForceScannerImpl @Inject constructor(
     private val scanDispatcher = Dispatchers.IO.limitedParallelism(PARALLELISM)
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    override suspend fun scanAll(): List<Device>  {
+    override suspend fun scanAll(): List<Device> {
         val network = connectivityManager.activeNetwork
         val linkProps = connectivityManager.getLinkProperties(network)
         val ipv4Info = linkProps?.linkAddresses

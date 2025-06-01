@@ -13,7 +13,5 @@ import javax.inject.Singleton
 internal abstract class ScannerModule {
     @Binds
     @Singleton
-    abstract fun bindDeviceScanner(
-        impl: BruteForceScannerImpl
-    ): DeviceScanner
+    abstract fun bindDeviceScanner(impl: BruteForceScannerImpl): DeviceScanner
 }

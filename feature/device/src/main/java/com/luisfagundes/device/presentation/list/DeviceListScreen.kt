@@ -39,9 +39,7 @@ import com.luisfagundes.device.R
 import com.luisfagundes.domain.model.Device
 
 @Composable
-internal fun DeviceListRoute(
-    viewModel: DeviceListViewModel = hiltViewModel()
-) {
+internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DeviceListScreen(
@@ -51,12 +49,9 @@ internal fun DeviceListRoute(
 }
 
 @Composable
-private fun DeviceListScreen(
-    uiState: DeviceListUiState,
-    onRefresh: () -> Unit
-) {
+private fun DeviceListScreen(uiState: DeviceListUiState, onRefresh: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         when (uiState) {
             is DeviceListUiState.Loading -> ScanningAnimation(
@@ -82,9 +77,7 @@ private fun DeviceListScreen(
 }
 
 @Composable
-private fun ScanningAnimation(
-    modifier: Modifier = Modifier
-) {
+private fun ScanningAnimation(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -108,7 +101,7 @@ private fun ScanningAnimation(
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            dynamicProperties = dynamicProperties,
+            dynamicProperties = dynamicProperties
         )
 
         if (composition != null) {
@@ -125,12 +118,12 @@ private fun ScanningAnimation(
 internal fun FoundDevices(
     modifier: Modifier = Modifier,
     devices: List<Device>,
-    onRefresh: () -> Unit,
+    onRefresh: () -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
-        contentPadding = PaddingValues(MaterialTheme.spacing.default),
+        contentPadding = PaddingValues(MaterialTheme.spacing.default)
     ) {
         stickyHeader {
             DeviceListHeader(
@@ -153,10 +146,7 @@ internal fun FoundDevices(
 }
 
 @Composable
-private fun DeviceListHeader(
-    deviceCount: Int,
-    onRefresh: () -> Unit
-) {
+private fun DeviceListHeader(deviceCount: Int, onRefresh: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -175,22 +165,19 @@ private fun DeviceListHeader(
         IconButton(onClick = onRefresh) {
             Icon(
                 imageVector = Icons.Default.Refresh,
-                contentDescription = stringResource(id = R.string.refresh_devices),
+                contentDescription = stringResource(id = R.string.refresh_devices)
             )
         }
     }
 }
 
 @Composable
-private fun DeviceCard(
-    modifier: Modifier = Modifier,
-    device: Device
-) {
+private fun DeviceCard(modifier: Modifier = Modifier, device: Device) {
     Card(
         modifier = modifier
     ) {
         Column(
-            modifier = Modifier.padding(MaterialTheme.spacing.default),
+            modifier = Modifier.padding(MaterialTheme.spacing.default)
         ) {
             Text(
                 text = if (device.hostName.isEmpty() || device.hostName == device.ipAddress) {

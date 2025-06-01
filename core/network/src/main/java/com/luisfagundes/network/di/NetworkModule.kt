@@ -18,27 +18,20 @@ import javax.inject.Singleton
 object ConnectivityModule {
     @Provides
     @Singleton
-    fun provideConnectivityManager(
-        @ApplicationContext appContext: Context
-    ): ConnectivityManager =
+    fun provideConnectivityManager(@ApplicationContext appContext: Context): ConnectivityManager =
         appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     @Provides
     @Singleton
-    fun provideWifiManager(
-        @ApplicationContext appContext: Context
-    ): WifiManager =
+    fun provideWifiManager(@ApplicationContext appContext: Context): WifiManager =
         appContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
     @Provides
     @Singleton
-    fun provideOwlWifiManager(
-        wifiManager: WifiManager
-    ) = AppWifiManager(wifiManager)
+    fun provideOwlWifiManager(wifiManager: WifiManager) = AppWifiManager(wifiManager)
 
     @Provides
     @Singleton
-    fun provideNetworkMonitor(
-        @ApplicationContext appContext: Context
-    ): NetworkMonitor = NetworkMonitorImpl(appContext)
+    fun provideNetworkMonitor(@ApplicationContext appContext: Context): NetworkMonitor =
+        NetworkMonitorImpl(appContext)
 }

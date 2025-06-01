@@ -11,7 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
-    abstract fun bindWifiRepository(
-        impl: WifiRepositoryImpl
-    ): WifiRepository
+    abstract fun bindWifiRepository(impl: WifiRepositoryImpl): WifiRepository
 }

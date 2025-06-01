@@ -29,7 +29,7 @@ fun OwlNavigationSuiteScaffold(
     navigationSuiteItems: OwlNavigationSuiteScope.() -> Unit,
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val layoutType = NavigationSuiteScaffoldDefaults
         .calculateFromAdaptiveInfo(windowAdaptiveInfo)
@@ -39,37 +39,37 @@ fun OwlNavigationSuiteScaffold(
             unselectedIconColor = OwlNavigationDefaults.navigationContentColor(),
             selectedTextColor = OwlNavigationDefaults.navigationSelectedTextColor(),
             unselectedTextColor = OwlNavigationDefaults.navigationContentColor(),
-            indicatorColor = OwlNavigationDefaults.navigationIndicatorColor(),
+            indicatorColor = OwlNavigationDefaults.navigationIndicatorColor()
         ),
         navigationRailItemColors = NavigationRailItemDefaults.colors(
             selectedIconColor = OwlNavigationDefaults.navigationSelectedItemColor(),
             unselectedIconColor = OwlNavigationDefaults.navigationContentColor(),
             selectedTextColor = OwlNavigationDefaults.navigationSelectedTextColor(),
             unselectedTextColor = OwlNavigationDefaults.navigationContentColor(),
-            indicatorColor = OwlNavigationDefaults.navigationIndicatorColor(),
+            indicatorColor = OwlNavigationDefaults.navigationIndicatorColor()
         ),
         navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(
             selectedIconColor = OwlNavigationDefaults.navigationSelectedItemColor(),
             unselectedIconColor = OwlNavigationDefaults.navigationContentColor(),
             selectedTextColor = OwlNavigationDefaults.navigationSelectedTextColor(),
-            unselectedTextColor = OwlNavigationDefaults.navigationContentColor(),
-        ),
+            unselectedTextColor = OwlNavigationDefaults.navigationContentColor()
+        )
     )
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
             OwlNavigationSuiteScope(
                 navigationSuiteScope = this,
-                navigationSuiteItemColors = navigationSuiteItemColors,
+                navigationSuiteItemColors = navigationSuiteItemColors
             ).run(navigationSuiteItems)
         },
         layoutType = layoutType,
         containerColor = Color.Transparent,
         navigationSuiteColors = NavigationSuiteDefaults.colors(
             navigationBarContentColor = OwlNavigationDefaults.navigationContentColor(),
-            navigationRailContainerColor = Color.Transparent,
+            navigationRailContainerColor = Color.Transparent
         ),
-        modifier = modifier,
+        modifier = modifier
     ) {
         content()
     }
@@ -80,7 +80,7 @@ fun OwlNavigationSuiteScaffold(
  */
 class OwlNavigationSuiteScope internal constructor(
     private val navigationSuiteScope: NavigationSuiteScope,
-    private val navigationSuiteItemColors: NavigationSuiteItemColors,
+    private val navigationSuiteItemColors: NavigationSuiteItemColors
 ) {
     fun item(
         selected: Boolean,
@@ -88,7 +88,7 @@ class OwlNavigationSuiteScope internal constructor(
         modifier: Modifier = Modifier,
         icon: @Composable () -> Unit,
         selectedIcon: @Composable () -> Unit = icon,
-        label: @Composable (() -> Unit)? = null,
+        label: @Composable (() -> Unit)? = null
     ) = navigationSuiteScope.item(
         selected = selected,
         onClick = onClick,
@@ -101,7 +101,7 @@ class OwlNavigationSuiteScope internal constructor(
         },
         label = label,
         colors = navigationSuiteItemColors,
-        modifier = modifier,
+        modifier = modifier
     )
 }
 

@@ -31,7 +31,7 @@ fun rememberOwlAppState(
     return remember(
         navController,
         coroutineScope,
-        networkMonitor,
+        networkMonitor
     ) {
         OwlAppState(
             navController = navController,

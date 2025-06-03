@@ -27,4 +27,10 @@ internal class HistoryRepositoryImpl @Inject constructor(
             deviceEntityList.map { deviceEntity -> deviceMapper.map(deviceEntity) }
         }
     }
+
+    override suspend fun deleteDevice(device: Device) {
+        deviceDao.deleteDevice(
+            deviceEntity = deviceEntityMapper.map(device)
+        )
+    }
 }

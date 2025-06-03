@@ -2,6 +2,7 @@ package com.luisfagundes.device.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.luisfagundes.device.domain.usecase.SaveDevicesUseCase
 import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.domain.model.Device
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ internal sealed class DeviceListUiState {
 
 @HiltViewModel
 internal class DeviceListViewModel @Inject constructor(
-    private val scanDevicesUseCase: ScanDevicesUseCase
+    private val scanDevicesUseCase: ScanDevicesUseCase,
+    private val saveDevicesUseCase: SaveDevicesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DeviceListUiState>(DeviceListUiState.Loading)
@@ -40,6 +42,7 @@ internal class DeviceListViewModel @Inject constructor(
             }
             .collect { devices ->
                 _uiState.value = DeviceListUiState.Success(devices)
+                saveDevicesUseCase.invoke(devices)
             }
     }
 }

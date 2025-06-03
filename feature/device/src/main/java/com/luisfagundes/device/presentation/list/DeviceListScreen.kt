@@ -114,6 +114,33 @@ private fun ScanningAnimation(modifier: Modifier = Modifier) {
     }
 }
 
+
+@Composable
+private fun DeviceListHeader(deviceCount: Int, onRefresh: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = pluralStringResource(
+                id = R.plurals.found_devices,
+                count = deviceCount,
+                deviceCount
+            ),
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        IconButton(onClick = onRefresh) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = stringResource(id = R.string.refresh_devices)
+            )
+        }
+    }
+}
+
 @Composable
 internal fun FoundDevices(
     modifier: Modifier = Modifier,
@@ -142,32 +169,6 @@ internal fun FoundDevices(
                 hostName = device.hostName,
                 ipAddress = device.ipAddress,
                 isActive = device.isActive
-            )
-        }
-    }
-}
-
-@Composable
-private fun DeviceListHeader(deviceCount: Int, onRefresh: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = pluralStringResource(
-                id = R.plurals.found_devices,
-                count = deviceCount,
-                deviceCount
-            ),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        IconButton(onClick = onRefresh) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = stringResource(id = R.string.refresh_devices)
             )
         }
     }

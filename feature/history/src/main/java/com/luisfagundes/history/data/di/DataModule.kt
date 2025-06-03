@@ -23,4 +23,8 @@ internal object DataModule {
             "history_database"
         ).fallbackToDestructiveMigration(false).build()
     }
+
+    @Singleton
+    @Provides
+    fun provideDeviceDao(database: HistoryDatabase) = database.deviceDao()
 }

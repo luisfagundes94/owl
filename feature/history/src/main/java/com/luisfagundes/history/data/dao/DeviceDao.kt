@@ -1,6 +1,7 @@
 package com.luisfagundes.history.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,4 +15,7 @@ internal interface DeviceDao {
 
     @Query("SELECT * FROM device ORDER BY timestamp DESC")
     fun getDeviceHistory(): Flow<List<DeviceEntity>>
+
+    @Delete
+    fun deleteDevice(deviceEntity: DeviceEntity)
 }

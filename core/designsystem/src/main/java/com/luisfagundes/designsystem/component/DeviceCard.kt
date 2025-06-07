@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.luisfagundes.designsystem.R
 import com.luisfagundes.designsystem.theme.customColorPalette
@@ -27,10 +28,12 @@ fun DeviceCard(
     ipAddress: String,
     isActive: Boolean
 ) {
+    val inactiveColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+    val displayName = hostName.takeIf { host -> host.isNotEmpty() && host != ipAddress }
+        ?: stringResource(R.string.device_unknown)
+
     Card(
         modifier = modifier,
-        enabled = isActive,
-        onClick = {}
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -41,21 +44,14 @@ fun DeviceCard(
                 modifier = Modifier.padding(MaterialTheme.spacing.default)
             ) {
                 Text(
-                    text = if (hostName.isEmpty() || hostName == ipAddress) {
-                        stringResource(R.string.device_unknown)
-                    } else {
-                        hostName
-                    },
-                    style = MaterialTheme.typography.titleMedium
+                    text = displayName,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (isActive) Color.Unspecified else inactiveColor
                 )
                 Text(
                     text = ipAddress,
                     style = MaterialTheme.typography.labelMedium,
-                    color = if (isActive) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                    }
+                    color = if (isActive) MaterialTheme.colorScheme.primary else inactiveColor
                 )
             }
             if (isActive) {
@@ -64,7 +60,7 @@ fun DeviceCard(
                         .scale(0.5f)
                         .padding(MaterialTheme.spacing.default),
                     imageVector = Icons.Default.Circle,
-                    contentDescription = stringResource(id = R.string.device_status),
+                    contentDescription = stringResource(R.string.device_status),
                     tint = MaterialTheme.customColorPalette.activeGreen
                 )
             }

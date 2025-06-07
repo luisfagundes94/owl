@@ -141,7 +141,9 @@ private fun LazyItemScope.DeviceCardWithSwipe(device: Device, onDeleteDevice: (D
     )
 
     SwipeToDismissBox(
-        modifier = Modifier.animateContentSize(),
+        modifier = Modifier
+            .animateContentSize()
+            .animateItem(),
         state = swipeState,
         enableDismissFromStartToEnd = false,
         backgroundContent = {
@@ -167,8 +169,7 @@ private fun LazyItemScope.DeviceCardWithSwipe(device: Device, onDeleteDevice: (D
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = MaterialTheme.spacing.default)
-                .padding(vertical = MaterialTheme.spacing.small)
-                .animateItem(),
+                .padding(vertical = MaterialTheme.spacing.small),
             hostName = device.hostName,
             ipAddress = device.ipAddress,
             isActive = device.isActive

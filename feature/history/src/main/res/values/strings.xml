@@ -3,4 +3,5 @@
     <string name="feature_history_title">History</string>
     <string name="no_history_available">No history available</string>
     <string name="device_history">Device History</string>
+    <string name="delete_device">Delete</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.luisfagundes.history.presentation
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -39,7 +42,6 @@ internal fun HistoryRoute(
         modifier = Modifier.fillMaxSize(),
         uiState = uiState,
         onDeleteDevice = viewModel::deleteDevice,
-        onDeleteAllDevices = {}
     )
 }
 
@@ -48,7 +50,6 @@ private fun HistoryScreen(
     modifier: Modifier = Modifier,
     uiState: HistoryUiState,
     onDeleteDevice: (Device) -> Unit,
-    onDeleteAllDevices: () -> Unit
 ) {
     Box(
         modifier = modifier,
@@ -58,7 +59,6 @@ private fun HistoryScreen(
                 modifier = Modifier.fillMaxWidth(),
                 devices = uiState.devices,
                 onDeleteDevice = onDeleteDevice,
-                onDeleteAllDevices = onDeleteAllDevices
             )
 
             is HistoryUiState.Empty -> EmptyMessage(
@@ -91,7 +91,6 @@ private fun SavedDevices(
     modifier: Modifier = Modifier,
     devices: List<Device>,
     onDeleteDevice: (Device) -> Unit,
-    onDeleteAllDevices: () -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -109,11 +108,28 @@ private fun SavedDevices(
         items(devices, key = { it.ipAddress }) { device ->
             val swipeState = rememberSwipeToDismissBoxState()
 
-
             SwipeToDismissBox(
                 modifier = Modifier.animateContentSize(),
                 state = swipeState,
-                backgroundContent = {}
+                enableDismissFromStartToEnd = false,
+                backgroundContent = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                color = MaterialTheme.colorScheme.errorContainer,
+                                shape = MaterialTheme.shapes.medium
+                            )
+                            .padding(MaterialTheme.spacing.small),
+                        contentAlignment = Alignment.CenterEnd,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = stringResource(R.string.delete_device),
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                }
             ) {
                 DeviceCard(
                     hostName = device.hostName,
@@ -123,8 +139,7 @@ private fun SavedDevices(
             }
 
             when (swipeState.currentValue) {
-                SwipeToDismissBoxValue.EndToStart,
-                SwipeToDismissBoxValue.StartToEnd -> {
+                SwipeToDismissBoxValue.EndToStart -> {
                     LaunchedEffect(device.ipAddress) {
                         onDeleteDevice(device)
                     }

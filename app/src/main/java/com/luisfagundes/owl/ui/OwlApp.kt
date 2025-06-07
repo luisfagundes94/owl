@@ -75,9 +75,9 @@ fun OwlApp(
 )
 internal fun InternalOwlApp(
     appState: OwlAppState,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
-    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
-    snackbarHostState: SnackbarHostState
+    windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo()
 ) {
     val currentDestination = appState.currentDestination
 

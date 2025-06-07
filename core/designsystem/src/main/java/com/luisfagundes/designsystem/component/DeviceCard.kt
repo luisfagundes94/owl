@@ -19,10 +19,10 @@ import com.luisfagundes.designsystem.theme.customColorPalette
 
 @Composable
 fun DeviceCard(
-    modifier: Modifier = Modifier,
     hostName: String,
     ipAddress: String,
-    isActive: Boolean
+    isActive: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val inactiveColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
     val displayName = hostName.takeIf { host -> host.isNotEmpty() && host != ipAddress }

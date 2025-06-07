@@ -52,9 +52,9 @@ internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
 
 @Composable
 private fun DeviceListScreen(
-    modifier: Modifier = Modifier,
     uiState: DeviceListUiState,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
@@ -122,20 +122,20 @@ private fun ScanningAnimation(modifier: Modifier = Modifier) {
 
 @Composable
 internal fun FoundDevices(
-    modifier: Modifier = Modifier,
     devices: List<Device>,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         stickyHeader {
             DeviceListHeader(
+                deviceCount = devices.size,
+                onRefresh = onRefresh,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.default),
-                deviceCount = devices.size,
-                onRefresh = onRefresh
+                    .padding(MaterialTheme.spacing.default)
             )
         }
         itemsIndexed(
@@ -143,14 +143,14 @@ internal fun FoundDevices(
             key = { _, device -> device.ipAddress }
         ) { index, device ->
             DeviceCard(
+                hostName = device.hostName,
+                ipAddress = device.ipAddress,
+                isActive = device.isActive,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = MaterialTheme.spacing.default)
                     .padding(vertical = MaterialTheme.spacing.small)
-                    .animateItem(),
-                hostName = device.hostName,
-                ipAddress = device.ipAddress,
-                isActive = device.isActive
+                    .animateItem()
             )
             if (index != devices.lastIndex) {
                 HorizontalDivider(
@@ -163,14 +163,14 @@ internal fun FoundDevices(
 
 @Composable
 private fun DeviceListHeader(
-    modifier: Modifier = Modifier,
     deviceCount: Int,
-    onRefresh: () -> Unit
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
     ) {
         Text(
             text = pluralStringResource(

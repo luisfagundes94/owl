@@ -24,25 +24,25 @@ import kotlinx.coroutines.flow.stateIn
 
 @Composable
 fun rememberOwlAppState(
+    networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    navController: NavHostController = rememberNavController(),
-    networkMonitor: NetworkMonitor
+    navController: NavHostController = rememberNavController()
 ): OwlAppState = remember(
+    networkMonitor,
     navController,
-    coroutineScope,
-    networkMonitor
+    coroutineScope
 ) {
     OwlAppState(
+        networkMonitor = networkMonitor,
         navController = navController,
-        coroutineScope = coroutineScope,
-        networkMonitor = networkMonitor
+        coroutineScope = coroutineScope
     )
 }
 
 @Stable
 class OwlAppState(
-    val navController: NavHostController,
     val networkMonitor: NetworkMonitor,
+    val navController: NavHostController,
     coroutineScope: CoroutineScope
 ) {
     private val previousDestination = mutableStateOf<NavDestination?>(null)

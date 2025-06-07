@@ -1,6 +1,7 @@
 package com.luisfagundes.device.viewmodel
 
 import app.cash.turbine.test
+import com.luisfagundes.device.domain.usecase.SaveDevicesUseCase
 import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.device.presentation.list.DeviceListUiState
 import com.luisfagundes.device.presentation.list.DeviceListViewModel
@@ -21,6 +22,7 @@ class DeviceListViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val scanDevicesUseCase: ScanDevicesUseCase = mockk()
+    private val saveDevicesUseCase: SaveDevicesUseCase = mockk()
 
     @Test
     fun `emits Loading then Success when scan succeeds`() = runTest {
@@ -29,7 +31,7 @@ class DeviceListViewModelTest {
         coEvery { scanDevicesUseCase.invoke() } returns flow { emit(devices) }
 
         // When
-        val viewModel = DeviceListViewModel(scanDevicesUseCase)
+        val viewModel = DeviceListViewModel(scanDevicesUseCase, saveDevicesUseCase)
 
         // Then
         viewModel.uiState.test {
@@ -50,7 +52,7 @@ class DeviceListViewModelTest {
         coEvery { scanDevicesUseCase.invoke() } returns flow { throw throwable }
 
         // When
-        val viewModel = DeviceListViewModel(scanDevicesUseCase)
+        val viewModel = DeviceListViewModel(scanDevicesUseCase, saveDevicesUseCase)
 
         // Then
         viewModel.uiState.test {

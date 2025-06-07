@@ -26,6 +26,7 @@ import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -48,29 +49,29 @@ internal fun HistoryRoute(viewModel: HistoryViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HistoryScreen(
-        modifier = Modifier.fillMaxSize(),
         uiState = uiState,
         onDeleteDevice = viewModel::deleteDevice,
-        onDeleteAll = {}
+        onDeleteAll = {},
+        modifier = Modifier.fillMaxSize()
     )
 }
 
 @Composable
 private fun HistoryScreen(
-    modifier: Modifier = Modifier,
     uiState: HistoryUiState,
     onDeleteDevice: (Device) -> Unit,
-    onDeleteAll: () -> Unit
+    onDeleteAll: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
     ) {
         when (uiState) {
             is HistoryUiState.Success -> SavedDevices(
-                modifier = Modifier.fillMaxWidth(),
                 devices = uiState.devices,
                 onDeleteDevice = onDeleteDevice,
-                onDeleteAll = onDeleteAll
+                onDeleteAll = onDeleteAll,
+                modifier = Modifier.fillMaxWidth()
             )
 
             is HistoryUiState.Empty -> EmptyMessage(
@@ -85,9 +86,9 @@ private fun HistoryScreen(
 @Composable
 private fun EmptyMessage(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.no_history_available),
@@ -98,10 +99,10 @@ private fun EmptyMessage(modifier: Modifier = Modifier) {
 
 @Composable
 private fun SavedDevices(
-    modifier: Modifier = Modifier,
     devices: List<Device>,
     onDeleteDevice: (Device) -> Unit,
-    onDeleteAll: () -> Unit
+    onDeleteAll: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
@@ -132,7 +133,7 @@ private fun SavedDevices(
 }
 
 @Composable
-private fun DeviceListHeader(modifier: Modifier = Modifier, onDeleteAll: () -> Unit) {
+private fun DeviceListHeader(onDeleteAll: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -156,6 +157,7 @@ private fun DeviceListHeader(modifier: Modifier = Modifier, onDeleteAll: () -> U
 
 @Composable
 private fun LazyItemScope.DeviceCardWithSwipe(device: Device, onDeleteDevice: (Device) -> Unit) {
+    val currentOnDeleteDevice = rememberUpdatedState(onDeleteDevice)
     val swipeState = rememberSwipeToDismissBoxState()
     val swipeProgress = if (swipeState.isSettledDirection) {
         0f
@@ -216,7 +218,7 @@ private fun LazyItemScope.DeviceCardWithSwipe(device: Device, onDeleteDevice: (D
     }
 
     if (swipeState.currentValue == SwipeToDismissBoxValue.EndToStart) {
-        LaunchedEffect(device.ipAddress) { onDeleteDevice(device) }
+        LaunchedEffect(device.ipAddress) { currentOnDeleteDevice.value(device) }
         return
     }
 }

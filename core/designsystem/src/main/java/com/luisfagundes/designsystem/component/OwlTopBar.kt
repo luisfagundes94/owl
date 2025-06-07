@@ -12,6 +12,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +22,7 @@ import com.luisfagundes.designsystem.theme.OwlTheme
 @Composable
 fun OwlTopAppBar(
     title: String,
+    modifier: Modifier = Modifier,
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = Color.Transparent
     ),
@@ -29,7 +31,9 @@ fun OwlTopAppBar(
     onNavigationClick: () -> Unit = {},
     content: @Composable () -> Unit = {}
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         TopAppBar(
             title = { Text(title) },
             navigationIcon = {

@@ -3,11 +3,8 @@ package com.luisfagundes.designsystem.component
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.luisfagundes.designsystem.R
 import com.luisfagundes.designsystem.theme.customColorPalette
-import com.luisfagundes.designsystem.theme.spacing
 
 @Composable
 fun DeviceCard(
@@ -32,38 +28,30 @@ fun DeviceCard(
     val displayName = hostName.takeIf { host -> host.isNotEmpty() && host != ipAddress }
         ?: stringResource(R.string.device_unknown)
 
-    Card(
+    Row(
         modifier = modifier,
+        verticalAlignment = CenterVertically,
+        horizontalArrangement = SpaceBetween
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = CenterVertically,
-            horizontalArrangement = SpaceBetween
-        ) {
-            Column(
-                modifier = Modifier.padding(MaterialTheme.spacing.default)
-            ) {
-                Text(
-                    text = displayName,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = if (isActive) Color.Unspecified else inactiveColor
-                )
-                Text(
-                    text = ipAddress,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (isActive) MaterialTheme.colorScheme.primary else inactiveColor
-                )
-            }
-            if (isActive) {
-                Icon(
-                    modifier = Modifier
-                        .scale(0.5f)
-                        .padding(MaterialTheme.spacing.default),
-                    imageVector = Icons.Default.Circle,
-                    contentDescription = stringResource(R.string.device_status),
-                    tint = MaterialTheme.customColorPalette.activeGreen
-                )
-            }
+        Column {
+            Text(
+                text = displayName,
+                style = MaterialTheme.typography.titleMedium,
+                color = if (isActive) Color.Unspecified else inactiveColor
+            )
+            Text(
+                text = ipAddress,
+                style = MaterialTheme.typography.labelMedium,
+                color = if (isActive) MaterialTheme.colorScheme.primary else inactiveColor
+            )
+        }
+        if (isActive) {
+            Icon(
+                modifier = Modifier.scale(0.5f),
+                imageVector = Icons.Default.Circle,
+                contentDescription = stringResource(R.string.device_status),
+                tint = MaterialTheme.customColorPalette.activeGreen
+            )
         }
     }
 }

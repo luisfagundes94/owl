@@ -43,15 +43,20 @@ internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DeviceListScreen(
+        modifier = Modifier.fillMaxSize(),
         uiState = uiState,
         onRefresh = viewModel::scanDevices
     )
 }
 
 @Composable
-private fun DeviceListScreen(uiState: DeviceListUiState, onRefresh: () -> Unit) {
+private fun DeviceListScreen(
+    modifier: Modifier = Modifier,
+    uiState: DeviceListUiState,
+    onRefresh: () -> Unit
+) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) {
         when (uiState) {
             is DeviceListUiState.Loading -> ScanningAnimation(
@@ -114,33 +119,6 @@ private fun ScanningAnimation(modifier: Modifier = Modifier) {
     }
 }
 
-
-@Composable
-private fun DeviceListHeader(deviceCount: Int, onRefresh: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = pluralStringResource(
-                id = R.plurals.found_devices,
-                count = deviceCount,
-                deviceCount
-            ),
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        IconButton(onClick = onRefresh) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = stringResource(id = R.string.refresh_devices)
-            )
-        }
-    }
-}
-
 @Composable
 internal fun FoundDevices(
     modifier: Modifier = Modifier,
@@ -149,11 +127,12 @@ internal fun FoundDevices(
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
         contentPadding = PaddingValues(MaterialTheme.spacing.default)
     ) {
         stickyHeader {
             DeviceListHeader(
+                modifier = Modifier.fillMaxWidth(),
                 deviceCount = devices.size,
                 onRefresh = onRefresh
             )
@@ -169,6 +148,35 @@ internal fun FoundDevices(
                 hostName = device.hostName,
                 ipAddress = device.ipAddress,
                 isActive = device.isActive
+            )
+        }
+    }
+}
+
+@Composable
+private fun DeviceListHeader(
+    modifier: Modifier = Modifier,
+    deviceCount: Int,
+    onRefresh: () -> Unit
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = pluralStringResource(
+                id = R.plurals.found_devices,
+                count = deviceCount,
+                deviceCount
+            ),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        IconButton(onClick = onRefresh) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = stringResource(id = R.string.refresh_devices)
             )
         }
     }

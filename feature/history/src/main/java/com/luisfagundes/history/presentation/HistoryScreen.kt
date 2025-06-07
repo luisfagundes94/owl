@@ -5,11 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -32,7 +32,11 @@ import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.domain.model.Device
 import com.luisfagundes.history.R
+import com.luisfagundes.history.extensions.isEndToStartDirection
+import androidx.compose.ui.graphics.lerp as lerpColor
 import androidx.compose.ui.util.lerp as lerpFloat
+
+private const val SWIPE_THRESHOLD = 0.3f
 
 @Composable
 internal fun HistoryRoute(
@@ -96,63 +100,88 @@ private fun SavedDevices(
 ) {
     LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
-        contentPadding = PaddingValues(MaterialTheme.spacing.default)
     ) {
         stickyHeader {
             Text(
+                modifier = Modifier.padding(MaterialTheme.spacing.default),
                 text = stringResource(R.string.device_history),
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(vertical = MaterialTheme.spacing.default),
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
         items(devices, key = { it.ipAddress }) { device ->
-            val swipeState = rememberSwipeToDismissBoxState()
-
-            val iconScale = lerpFloat(
-                start = 0.75f,
-                stop = 1f,
-                fraction = (swipeState.progress / 0.3f).coerceIn(0f, 1f)
+            DeviceCardWithSwipe(
+                device = device,
+                onDeleteDevice = onDeleteDevice
             )
+        }
+    }
+}
 
-            SwipeToDismissBox(
-                modifier = Modifier.animateContentSize(),
-                state = swipeState,
-                enableDismissFromStartToEnd = false,
-                backgroundContent = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                color = MaterialTheme.colorScheme.error,
-                                shape = MaterialTheme.shapes.medium
-                            )
-                            .padding(MaterialTheme.spacing.small),
-                        contentAlignment = Alignment.CenterEnd,
-                    ) {
-                        Icon(
-                            modifier = Modifier.scale(iconScale),
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = stringResource(R.string.delete_device),
-                            tint = MaterialTheme.colorScheme.onError
-                        )
-                    }
-                }
+@Composable
+private fun LazyItemScope.DeviceCardWithSwipe(
+    device: Device,
+    onDeleteDevice: (Device) -> Unit
+) {
+    val swipeState = rememberSwipeToDismissBoxState()
+    val isEndToStartDirection = swipeState.dismissDirection == SwipeToDismissBoxValue.EndToStart
+    val isSettledDirection = swipeState.dismissDirection == SwipeToDismissBoxValue.Settled
+    val swipeProgress = if (isSettledDirection) 0f else {
+        (swipeState.progress / SWIPE_THRESHOLD).coerceIn(0f, 1f)
+    }
+
+    val backgroundColor = lerpColor(
+        start = MaterialTheme.colorScheme.background,
+        stop = if (isEndToStartDirection) {
+            MaterialTheme.colorScheme.error
+        } else {
+            MaterialTheme.colorScheme.background
+        },
+        fraction = swipeProgress
+    )
+
+    val iconScale = lerpFloat(
+        start = 0f,
+        stop = 1f,
+        fraction = swipeProgress
+    )
+
+    SwipeToDismissBox(
+        modifier = Modifier.animateContentSize(),
+        state = swipeState,
+        enableDismissFromStartToEnd = false,
+        backgroundContent = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(backgroundColor),
+                contentAlignment = Alignment.CenterEnd,
             ) {
-                DeviceCard(
-                    hostName = device.hostName,
-                    ipAddress = device.ipAddress,
-                    isActive = device.isActive
+                Icon(
+                    modifier = Modifier.scale(iconScale),
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.delete_device),
+                    tint = MaterialTheme.colorScheme.onError
                 )
             }
-
-            if (swipeState.currentValue == SwipeToDismissBoxValue.EndToStart) {
-                LaunchedEffect(device.ipAddress) {
-                    onDeleteDevice(device)
-                }
-            }
         }
+    ) {
+        DeviceCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = MaterialTheme.spacing.default)
+                .padding(vertical = MaterialTheme.spacing.small)
+                .animateItem(),
+            hostName = device.hostName,
+            ipAddress = device.ipAddress,
+            isActive = device.isActive
+        )
+    }
+
+    if (swipeState.isEndToStartDirection) {
+        LaunchedEffect(device.ipAddress) { onDeleteDevice(device) }
+        return
     }
 }
 

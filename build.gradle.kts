@@ -9,3 +9,15 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.ktlinter) apply false
 }
+
+subprojects {
+    plugins.apply("org.jmailen.kotlinter")
+
+    plugins.withId("org.jmailen.kotlinter") {
+        configure<org.jmailen.gradle.kotlinter.KotlinterExtension> {
+            ignoreFormatFailures = true
+            ignoreLintFailures = false
+            reporters = arrayOf("checkstyle")
+        }
+    }
+}

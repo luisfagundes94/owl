@@ -13,10 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,8 +29,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.graphics.lerp as lerpColor
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.util.lerp as lerpFloat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.luisfagundes.designsystem.component.DeviceCard
@@ -41,8 +40,6 @@ import com.luisfagundes.domain.model.Device
 import com.luisfagundes.history.R
 import com.luisfagundes.history.extensions.isEndToStartDirection
 import com.luisfagundes.history.extensions.isSettledDirection
-import androidx.compose.ui.graphics.lerp as lerpColor
-import androidx.compose.ui.util.lerp as lerpFloat
 
 private const val SWIPE_THRESHOLD = 0.3f
 
@@ -135,10 +132,7 @@ private fun SavedDevices(
 }
 
 @Composable
-private fun DeviceListHeader(
-    modifier: Modifier = Modifier,
-    onDeleteAll: () -> Unit,
-) {
+private fun DeviceListHeader(modifier: Modifier = Modifier, onDeleteAll: () -> Unit) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -154,17 +148,14 @@ private fun DeviceListHeader(
         ) {
             Icon(
                 imageVector = Icons.Default.ClearAll,
-                contentDescription = stringResource(R.string.clear_all_history),
+                contentDescription = stringResource(R.string.clear_all_history)
             )
         }
     }
 }
 
 @Composable
-private fun LazyItemScope.DeviceCardWithSwipe(
-    device: Device,
-    onDeleteDevice: (Device) -> Unit
-) {
+private fun LazyItemScope.DeviceCardWithSwipe(device: Device, onDeleteDevice: (Device) -> Unit) {
     val swipeState = rememberSwipeToDismissBoxState()
     val swipeProgress = if (swipeState.isSettledDirection) {
         0f

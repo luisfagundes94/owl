@@ -16,13 +16,12 @@ internal object DataModule {
 
     @Singleton
     @Provides
-    fun provideHistoryDatabase(@ApplicationContext context: Context): HistoryDatabase {
-        return Room.databaseBuilder(
+    fun provideHistoryDatabase(@ApplicationContext context: Context): HistoryDatabase =
+        Room.databaseBuilder(
             context,
             HistoryDatabase::class.java,
             "history_database"
         ).fallbackToDestructiveMigration(false).build()
-    }
 
     @Singleton
     @Provides

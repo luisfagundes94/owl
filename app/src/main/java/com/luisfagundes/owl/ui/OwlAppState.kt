@@ -27,18 +27,16 @@ fun rememberOwlAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
     networkMonitor: NetworkMonitor
-): OwlAppState {
-    return remember(
-        navController,
-        coroutineScope,
-        networkMonitor
-    ) {
-        OwlAppState(
-            navController = navController,
-            coroutineScope = coroutineScope,
-            networkMonitor = networkMonitor
-        )
-    }
+): OwlAppState = remember(
+    navController,
+    coroutineScope,
+    networkMonitor
+) {
+    OwlAppState(
+        navController = navController,
+        coroutineScope = coroutineScope,
+        networkMonitor = networkMonitor
+    )
 }
 
 @Stable

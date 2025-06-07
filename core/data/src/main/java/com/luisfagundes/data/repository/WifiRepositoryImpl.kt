@@ -8,7 +8,5 @@ import kotlinx.coroutines.flow.Flow
 class WifiRepositoryImpl @Inject constructor(
     private val wifiManager: AppWifiManager
 ) : WifiRepository {
-    override fun getSsid(): Flow<String?> {
-        return wifiManager.ssidName
-    }
+    override fun getSsid(): Flow<String?> = wifiManager.ssidName
 }

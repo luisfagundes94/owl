@@ -22,11 +22,10 @@ internal class HistoryRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getDevices(): Flow<List<Device>> {
-        return deviceDao.getDeviceHistory().map { deviceEntityList ->
+    override fun getDevices(): Flow<List<Device>> =
+        deviceDao.getDeviceHistory().map { deviceEntityList ->
             deviceEntityList.map { deviceEntity -> deviceMapper.map(deviceEntity) }
         }
-    }
 
     override suspend fun deleteDevice(device: Device) {
         deviceDao.deleteDevice(

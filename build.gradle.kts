@@ -7,23 +7,5 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.ktlint) apply false
-}
-
-subprojects {
-    plugins.apply("org.jlleitschuh.gradle.ktlint")
-
-    plugins.withId("org.jlleitschuh.gradle.ktlint") {
-        configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-            enableExperimentalRules.set(true)
-            filter {
-                exclude("**/generated/**")
-                include("**/kotlin/**")
-            }
-            reporters {
-                reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
-                reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
-            }
-        }
-    }
+    alias(libs.plugins.ktlinter) apply false
 }

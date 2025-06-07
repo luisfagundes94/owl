@@ -33,6 +33,7 @@ import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.domain.model.Device
 import com.luisfagundes.history.R
 import com.luisfagundes.history.extensions.isEndToStartDirection
+import com.luisfagundes.history.extensions.isSettledDirection
 import androidx.compose.ui.graphics.lerp as lerpColor
 import androidx.compose.ui.util.lerp as lerpFloat
 
@@ -124,15 +125,13 @@ private fun LazyItemScope.DeviceCardWithSwipe(
     onDeleteDevice: (Device) -> Unit
 ) {
     val swipeState = rememberSwipeToDismissBoxState()
-    val isEndToStartDirection = swipeState.dismissDirection == SwipeToDismissBoxValue.EndToStart
-    val isSettledDirection = swipeState.dismissDirection == SwipeToDismissBoxValue.Settled
-    val swipeProgress = if (isSettledDirection) 0f else {
+    val swipeProgress = if (swipeState.isSettledDirection) 0f else {
         (swipeState.progress / SWIPE_THRESHOLD).coerceIn(0f, 1f)
     }
 
     val backgroundColor = lerpColor(
         start = MaterialTheme.colorScheme.background,
-        stop = if (isEndToStartDirection) {
+        stop = if (swipeState.isEndToStartDirection) {
             MaterialTheme.colorScheme.error
         } else {
             MaterialTheme.colorScheme.background
@@ -179,7 +178,7 @@ private fun LazyItemScope.DeviceCardWithSwipe(
         )
     }
 
-    if (swipeState.isEndToStartDirection) {
+    if (swipeState.currentValue == SwipeToDismissBoxValue.EndToStart){
         LaunchedEffect(device.ipAddress) { onDeleteDevice(device) }
         return
     }

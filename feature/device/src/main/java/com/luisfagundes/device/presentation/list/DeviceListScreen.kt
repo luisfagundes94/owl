@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -126,29 +128,36 @@ internal fun FoundDevices(
     onRefresh: () -> Unit
 ) {
     LazyColumn(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.default),
-        contentPadding = PaddingValues(MaterialTheme.spacing.default)
+        modifier = modifier
     ) {
         stickyHeader {
             DeviceListHeader(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default),
                 deviceCount = devices.size,
                 onRefresh = onRefresh
             )
         }
-        items(
+        itemsIndexed(
             items = devices,
-            key = { it.ipAddress }
-        ) { device ->
+            key = { _, device -> device.ipAddress }
+        ) { index, device ->
             DeviceCard(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = MaterialTheme.spacing.default)
+                    .padding(vertical = MaterialTheme.spacing.small)
                     .animateItem(),
                 hostName = device.hostName,
                 ipAddress = device.ipAddress,
                 isActive = device.isActive
             )
+            if (index != devices.lastIndex) {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = MaterialTheme.spacing.default)
+                )
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -31,6 +32,7 @@ import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.domain.model.Device
 import com.luisfagundes.history.R
+import androidx.compose.ui.util.lerp as lerpFloat
 
 @Composable
 internal fun HistoryRoute(
@@ -108,6 +110,12 @@ private fun SavedDevices(
         items(devices, key = { it.ipAddress }) { device ->
             val swipeState = rememberSwipeToDismissBoxState()
 
+            val iconScale = lerpFloat(
+                start = 0.75f,
+                stop = 1f,
+                fraction = (swipeState.progress / 0.3f).coerceIn(0f, 1f)
+            )
+
             SwipeToDismissBox(
                 modifier = Modifier.animateContentSize(),
                 state = swipeState,
@@ -117,16 +125,17 @@ private fun SavedDevices(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(
-                                color = MaterialTheme.colorScheme.errorContainer,
+                                color = MaterialTheme.colorScheme.error,
                                 shape = MaterialTheme.shapes.medium
                             )
                             .padding(MaterialTheme.spacing.small),
                         contentAlignment = Alignment.CenterEnd,
                     ) {
                         Icon(
+                            modifier = Modifier.scale(iconScale),
                             imageVector = Icons.Default.Delete,
                             contentDescription = stringResource(R.string.delete_device),
-                            tint = MaterialTheme.colorScheme.onErrorContainer
+                            tint = MaterialTheme.colorScheme.onError
                         )
                     }
                 }
@@ -138,14 +147,10 @@ private fun SavedDevices(
                 )
             }
 
-            when (swipeState.currentValue) {
-                SwipeToDismissBoxValue.EndToStart -> {
-                    LaunchedEffect(device.ipAddress) {
-                        onDeleteDevice(device)
-                    }
+            if (swipeState.currentValue == SwipeToDismissBoxValue.EndToStart) {
+                LaunchedEffect(device.ipAddress) {
+                    onDeleteDevice(device)
                 }
-
-                else -> Unit
             }
         }
     }

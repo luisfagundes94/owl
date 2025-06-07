@@ -152,7 +152,9 @@ private fun LazyItemScope.DeviceCardWithSwipe(device: Device, onDeleteDevice: (D
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Icon(
-                    modifier = Modifier.scale(iconScale),
+                    modifier = Modifier
+                        .scale(iconScale)
+                        .padding(horizontal = MaterialTheme.spacing.default),
                     imageVector = Icons.Default.Delete,
                     contentDescription = stringResource(R.string.delete_device),
                     tint = MaterialTheme.colorScheme.onError

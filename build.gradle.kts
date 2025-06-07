@@ -1,4 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    dependencies {
+        classpath("io.nlopez.compose.rules:ktlint:${libs.versions.twitterComposeRules.get()}")
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
@@ -7,7 +13,7 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.ktlinter) apply false
+    alias(libs.plugins.kotlinter) apply false
 }
 
 subprojects {

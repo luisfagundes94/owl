@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -149,10 +151,8 @@ internal fun FoundDevices(
             )
         }
         item {
-            Text(
-                text = wifiName ?: stringResource(id = R.string.unknown_wifi_name),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
+            WifiNetworkHeader(
+                wifiName = wifiName,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = MaterialTheme.spacing.default)
@@ -179,6 +179,26 @@ internal fun FoundDevices(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun WifiNetworkHeader(wifiName: String?, modifier: Modifier = Modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.verySmall),
+        modifier = modifier
+    ) {
+        Text(
+            text = wifiName ?: stringResource(id = R.string.unknown_wifi_name),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+        )
+        Icon(
+            imageVector = Icons.Default.Wifi,
+            contentDescription = stringResource(R.string.wifi_network),
+            modifier = Modifier.scale(0.75f)
+        )
     }
 }
 

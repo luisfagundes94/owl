@@ -48,9 +48,7 @@ import com.luisfagundes.domain.model.Device
 @Composable
 internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val permissionState = rememberPermissionState(
-        permission = android.Manifest.permission.ACCESS_FINE_LOCATION
-    )
+    val permissionState = rememberPermissionState(android.Manifest.permission.ACCESS_FINE_LOCATION)
 
     PermissionRequest(
         permissionState = permissionState,

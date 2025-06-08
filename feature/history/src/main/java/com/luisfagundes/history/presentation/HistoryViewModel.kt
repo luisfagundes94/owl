@@ -1,6 +1,7 @@
 package com.luisfagundes.history.presentation
 
 import androidx.lifecycle.viewModelScope
+import com.luisfagundes.common.presentation.ViewModel
 import com.luisfagundes.domain.model.Device
 import com.luisfagundes.history.domain.usecase.DeleteDeviceUseCase
 import com.luisfagundes.history.domain.usecase.GetSavedDevicesUseCase
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 class HistoryViewModel @Inject constructor(
     private val getSavedDevicesUseCase: GetSavedDevicesUseCase,
     private val deleteDeviceUseCase: DeleteDeviceUseCase
-) : com.luisfagundes.common.presentation.ViewModel<HistoryUiState>(
+) : ViewModel<HistoryUiState>(
     initialState = HistoryUiState()
 ) {
     init {

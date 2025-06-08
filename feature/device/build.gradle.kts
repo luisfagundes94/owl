@@ -54,6 +54,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    // Accompanist
+    implementation(libs.accompanist.permissions)
+
     // UI
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)

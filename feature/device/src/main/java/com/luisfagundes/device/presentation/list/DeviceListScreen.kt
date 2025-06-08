@@ -36,23 +36,36 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import com.luisfagundes.common.permission.PermissionRequest
 import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.device.R
 import com.luisfagundes.domain.model.Device
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val permissionState = rememberPermissionState(
+        permission = android.Manifest.permission.ACCESS_FINE_LOCATION
+    )
 
     PermissionRequest(
-        permission = android.Manifest.permission.ACCESS_FINE_LOCATION,
+        permissionState = permissionState,
         rationaleMessage = stringResource(R.string.location_permission_rationale),
-        shouldShowRationale = uiState.shouldShowLocationRationale,
-        onGrant = { viewModel.getWifiSsid() },
-        onAllowAccess = { viewModel.hideRationaleDialog() },
-        onDismiss = { dontAskAgain -> viewModel.onPermissionDismissed(dontAskAgain) }
+        shouldShowRationale = uiState.shouldShowPermissionRationale,
+        onGrant = {
+            viewModel.getWifiSsid()
+        },
+        onRequestPermission = {
+            permissionState.launchPermissionRequest()
+            viewModel.hidePermissionRationale()
+        },
+        onDismiss = { dontAskAgain ->
+            viewModel.onPermissionRationaleDismissed(dontAskAgain)
+        }
     )
 
     DeviceListScreen(

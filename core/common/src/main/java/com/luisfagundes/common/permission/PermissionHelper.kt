@@ -15,30 +15,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.luisfagundes.common.R
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun PermissionRequest(
-    permission: String,
+    permissionState: PermissionState,
     rationaleMessage: String,
     shouldShowRationale: Boolean,
     onGrant: () -> Unit,
-    onAllowAccess: () -> Unit,
+    onRequestPermission: () -> Unit,
     onDismiss: (Boolean) -> Unit
 ) {
-    val permissionState = rememberPermissionState(permission)
-
     when {
         permissionState.status.isGranted -> onGrant()
         else -> {
             if (shouldShowRationale) {
                 PermissionRationaleDialog(
                     message = rationaleMessage,
-                    onRequestPermission = { permissionState.launchPermissionRequest() },
-                    onAllowAccess = onAllowAccess,
+                    onRequestPermission = onRequestPermission,
                     onDismiss = onDismiss
                 )
             }
@@ -50,7 +47,6 @@ fun PermissionRequest(
 private fun PermissionRationaleDialog(
     message: String,
     onRequestPermission: () -> Unit,
-    onAllowAccess: () -> Unit,
     onDismiss: (dontAskAgain: Boolean) -> Unit,
 ) {
     var dontAskAgain by remember { mutableStateOf(false) }
@@ -66,12 +62,7 @@ private fun PermissionRationaleDialog(
             )
         },
         confirmButton = {
-            Button(
-                onClick = {
-                    onAllowAccess()
-                    onRequestPermission()
-                }
-            ) {
+            Button(onClick = onRequestPermission) {
                 Text(stringResource(R.string.grant_permission))
             }
         },

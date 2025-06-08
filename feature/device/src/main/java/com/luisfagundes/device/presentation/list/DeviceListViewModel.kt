@@ -22,7 +22,7 @@ internal class DeviceListViewModel @Inject constructor(
     initialState = DeviceListUiState()
 ) {
     init {
-        shouldShowPermissionRationale()
+        loadPermissionRationaleState()
         scanDevices()
     }
 
@@ -42,20 +42,20 @@ internal class DeviceListViewModel @Inject constructor(
         }
     }
 
-    fun onPermissionDismissed(dontAskAgain: Boolean) = viewModelScope.launch {
-        if (dontAskAgain) {
-            userRepository.setShowLocationRationale(false)
-        }
-        hideRationaleDialog()
-    }
-
-    fun hideRationaleDialog() {
-        updateState { setShowLocationRationale(false) }
-    }
-
-    fun shouldShowPermissionRationale() = viewModelScope.launch {
+    fun loadPermissionRationaleState() = viewModelScope.launch {
         userRepository.shouldShowLocationRationale().collect { shouldShow ->
             updateState { setShowLocationRationale(shouldShow) }
         }
+    }
+
+    fun onPermissionRationaleDismissed(dontAskAgain: Boolean) = viewModelScope.launch {
+        if (dontAskAgain) {
+            userRepository.setShowLocationRationale(false)
+        }
+        hidePermissionRationale()
+    }
+
+    fun hidePermissionRationale() {
+        updateState { setShowLocationRationale(false) }
     }
 }

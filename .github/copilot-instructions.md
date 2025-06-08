@@ -1,3 +1,6 @@
+## Copilot Instructions for Android Project
+- Give me always the latest recommended practices for Android development.
+
 ## Security
 - Check for security vulnerabilities after generation.
 - Avoid hardcoding sensitive information like API keys or passwords.

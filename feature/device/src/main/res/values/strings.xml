@@ -9,4 +9,6 @@
     </plurals>
     <string name="error_scanning_devices">Error scanning devices (%1$s)</string>
     <string name="refresh_devices">Refresh</string>
+    <string name="location_permission_rationale">Do you want to enable location permission so that you can display the name of your wifi network? If you agree, please press allow access in this and the next dialog.</string>
+    <string name="unknown_wifi_name">Unknown Network</string>
 </resources>

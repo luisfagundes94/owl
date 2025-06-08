@@ -28,7 +28,7 @@ object ConnectivityModule {
 
     @Provides
     @Singleton
-    fun provideOwlWifiManager(wifiManager: WifiManager) = AppWifiManager(wifiManager)
+    fun provideAppWifiManager(wifiManager: WifiManager) = AppWifiManager(wifiManager)
 
     @Provides
     @Singleton

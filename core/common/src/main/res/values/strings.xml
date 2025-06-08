@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_required">Permission Required</string>
+    <string name="grant_permission">Allow Access</string>
+    <string name="cancel">Cancel</string>
+</resources>

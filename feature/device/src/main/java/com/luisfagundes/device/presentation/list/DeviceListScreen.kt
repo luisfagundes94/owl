@@ -1,5 +1,6 @@
 package com.luisfagundes.device.presentation.list
 
+import android.Manifest
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
@@ -34,6 +34,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
+import com.luisfagundes.common.permission.PermissionRequest
 import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.device.R
@@ -42,6 +43,12 @@ import com.luisfagundes.domain.model.Device
 @Composable
 internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    PermissionRequest(
+        permission = Manifest.permission.ACCESS_FINE_LOCATION,
+        rationaleMessage = stringResource(id = R.string.location_permission_rationale),
+        onGrant = viewModel::getWifiSsid
+    )
 
     DeviceListScreen(
         modifier = Modifier.fillMaxSize(),
@@ -59,20 +66,21 @@ private fun DeviceListScreen(
     Box(
         modifier = modifier
     ) {
-        when (uiState) {
-            is DeviceListUiState.Loading -> ScanningAnimation(
+        when {
+            uiState.isLoading -> ScanningAnimation(
                 modifier = Modifier.align(Alignment.Center)
             )
 
-            is DeviceListUiState.Success -> FoundDevices(
-                modifier = Modifier.fillMaxWidth(),
+            uiState.devices.isNotEmpty() -> FoundDevices(
                 devices = uiState.devices,
-                onRefresh = onRefresh
+                wifiName = uiState.wifiName,
+                onRefresh = onRefresh,
+                modifier = Modifier.fillMaxWidth()
             )
 
-            is DeviceListUiState.Error -> Text(
+            uiState.error != null -> Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = uiState.throwable.cause?.localizedMessage ?: stringResource(
+                text = uiState.error.cause?.localizedMessage ?: stringResource(
                     id = R.string.device_list_generic_error
                 ),
                 style = MaterialTheme.typography.bodyLarge,
@@ -123,6 +131,7 @@ private fun ScanningAnimation(modifier: Modifier = Modifier) {
 @Composable
 internal fun FoundDevices(
     devices: List<Device>,
+    wifiName: String?,
     onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -136,6 +145,17 @@ internal fun FoundDevices(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(MaterialTheme.spacing.default)
+            )
+        }
+        item {
+            Text(
+                text = wifiName ?: stringResource(id = R.string.unknown_wifi_name),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = MaterialTheme.spacing.default)
+                    .padding(bottom = MaterialTheme.spacing.small)
             )
         }
         itemsIndexed(

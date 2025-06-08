@@ -33,6 +33,11 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.common)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    
     api(libs.kotlinx.coroutines.test)
     api(libs.junit)
     api(libs.androidx.junit)

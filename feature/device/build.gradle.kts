@@ -41,6 +41,7 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.designsystem)
     implementation(projects.core.testing)
+    implementation(projects.core.common)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -65,4 +66,5 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    testImplementation(kotlin("test"))
 }

@@ -1,7 +1,7 @@
 package com.luisfagundes.device.usecase
 
-import com.luisfagundes.device.domain.usecase.GetWifiSsidUseCase
 import com.luisfagundes.domain.repository.WifiRepository
+import com.luisfagundes.domain.usecase.GetWifiSsidUseCase
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf

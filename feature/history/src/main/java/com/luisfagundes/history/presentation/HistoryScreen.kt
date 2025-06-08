@@ -66,15 +66,15 @@ private fun HistoryScreen(
     Box(
         modifier = modifier
     ) {
-        when (uiState) {
-            is HistoryUiState.Success -> SavedDevices(
+        when {
+            uiState.devices.isNotEmpty() -> SavedDevices(
                 devices = uiState.devices,
                 onDeleteDevice = onDeleteDevice,
                 onDeleteAll = onDeleteAll,
                 modifier = Modifier.fillMaxWidth()
             )
 
-            is HistoryUiState.Empty -> EmptyMessage(
+            uiState.devices.isEmpty() -> EmptyMessage(
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center)

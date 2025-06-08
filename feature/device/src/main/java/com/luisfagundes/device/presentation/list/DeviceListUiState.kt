@@ -8,7 +8,7 @@ internal data class DeviceListUiState(
     val wifiName: String? = null,
     val isLoading: Boolean = false,
     val error: Throwable? = null,
-    val shouldShowPermissionRationale: Boolean = false,
+    val shouldShowPermissionRationale: Boolean = false
 ) : UiState {
     fun setDevices(devices: List<Device>) = copy(
         devices = devices,

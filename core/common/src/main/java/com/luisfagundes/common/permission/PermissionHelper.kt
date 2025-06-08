@@ -47,7 +47,7 @@ fun PermissionRequest(
 private fun PermissionRationaleDialog(
     message: String,
     onRequestPermission: () -> Unit,
-    onDismiss: (dontAskAgain: Boolean) -> Unit,
+    onDismiss: (dontAskAgain: Boolean) -> Unit
 ) {
     var dontAskAgain by remember { mutableStateOf(false) }
 
@@ -82,7 +82,7 @@ private fun DontAskAgainCheckBox(
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(message)
         Row(

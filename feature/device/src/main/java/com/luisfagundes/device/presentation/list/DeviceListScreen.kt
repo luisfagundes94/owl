@@ -1,6 +1,5 @@
 package com.luisfagundes.device.presentation.list
 
-import android.Manifest
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +36,6 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
-import com.luisfagundes.common.permission.PermissionRequest
 import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.device.R
@@ -46,12 +44,6 @@ import com.luisfagundes.domain.model.Device
 @Composable
 internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    PermissionRequest(
-        permission = Manifest.permission.ACCESS_FINE_LOCATION,
-        rationaleMessage = stringResource(id = R.string.location_permission_rationale),
-        onGrant = viewModel::getWifiSsid
-    )
 
     DeviceListScreen(
         modifier = Modifier.fillMaxSize(),

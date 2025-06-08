@@ -12,26 +12,6 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.luisfagundes.common.R
 
-@OptIn(ExperimentalPermissionsApi::class)
-@Composable
-fun PermissionRequest(permission: String, rationaleMessage: String, onGrant: () -> Unit) {
-    val permissionState = rememberPermissionState(permission)
-    val showRationale = remember { mutableStateOf(true) }
-
-    when {
-        permissionState.status.isGranted -> onGrant()
-        else -> {
-            if (showRationale.value) {
-                PermissionRationaleDialog(
-                    message = rationaleMessage,
-                    onRequestPermission = { permissionState.launchPermissionRequest() },
-                    onDismiss = { showRationale.value = false }
-                )
-            }
-        }
-    }
-}
-
 @Composable
 private fun PermissionRationaleDialog(
     message: String,

@@ -36,6 +36,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
 import com.airbnb.lottie.compose.rememberLottieDynamicProperty
+import com.luisfagundes.common.permission.PermissionRequest
 import com.luisfagundes.designsystem.component.DeviceCard
 import com.luisfagundes.designsystem.theme.spacing
 import com.luisfagundes.device.R
@@ -44,6 +45,15 @@ import com.luisfagundes.domain.model.Device
 @Composable
 internal fun DeviceListRoute(viewModel: DeviceListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    PermissionRequest(
+        permission = android.Manifest.permission.ACCESS_FINE_LOCATION,
+        rationaleMessage = stringResource(R.string.location_permission_rationale),
+        shouldShowRationale = uiState.shouldShowLocationRationale,
+        onGrant = { viewModel.getWifiSsid() },
+        onAllowAccess = { viewModel.hideRationaleDialog() },
+        onDismiss = { dontAskAgain -> viewModel.onPermissionDismissed(dontAskAgain) }
+    )
 
     DeviceListScreen(
         modifier = Modifier.fillMaxSize(),

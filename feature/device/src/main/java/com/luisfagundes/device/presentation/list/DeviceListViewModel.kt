@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.luisfagundes.common.presentation.ViewModel
 import com.luisfagundes.device.domain.usecase.SaveDevicesUseCase
 import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
+import com.luisfagundes.domain.repository.UserRepository
 import com.luisfagundes.domain.usecase.GetWifiSsidUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,11 +16,13 @@ import kotlinx.coroutines.launch
 internal class DeviceListViewModel @Inject constructor(
     private val scanDevicesUseCase: ScanDevicesUseCase,
     private val saveDevicesUseCase: SaveDevicesUseCase,
-    private val getWifiSsidUseCase: GetWifiSsidUseCase
+    private val getWifiSsidUseCase: GetWifiSsidUseCase,
+    private val userRepository: UserRepository
 ) : ViewModel<DeviceListUiState>(
     initialState = DeviceListUiState()
 ) {
     init {
+        shouldShowPermissionRationale()
         scanDevices()
     }
 
@@ -36,6 +39,23 @@ internal class DeviceListViewModel @Inject constructor(
     fun getWifiSsid() = viewModelScope.launch {
         getWifiSsidUseCase.invoke().collect { ssid ->
             updateState { setWifiName(ssid) }
+        }
+    }
+
+    fun onPermissionDismissed(dontAskAgain: Boolean) = viewModelScope.launch {
+        if (dontAskAgain) {
+            userRepository.setShowLocationRationale(false)
+        }
+        hideRationaleDialog()
+    }
+
+    fun hideRationaleDialog() {
+        updateState { setShowLocationRationale(false) }
+    }
+
+    fun shouldShowPermissionRationale() = viewModelScope.launch {
+        userRepository.shouldShowLocationRationale().collect { shouldShow ->
+            updateState { setShowLocationRationale(shouldShow) }
         }
     }
 }

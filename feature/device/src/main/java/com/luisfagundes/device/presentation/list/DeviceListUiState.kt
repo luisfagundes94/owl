@@ -7,7 +7,8 @@ internal data class DeviceListUiState(
     val devices: List<Device> = emptyList(),
     val wifiName: String? = null,
     val isLoading: Boolean = false,
-    val error: Throwable? = null
+    val error: Throwable? = null,
+    val shouldShowLocationRationale: Boolean = false,
 ) : UiState {
     fun setDevices(devices: List<Device>) = copy(
         devices = devices,
@@ -16,7 +17,8 @@ internal data class DeviceListUiState(
     )
 
     fun setWifiName(wifiName: String?) = copy(
-        wifiName = wifiName
+        wifiName = wifiName,
+        shouldShowLocationRationale = false
     )
 
     fun setLoading(isLoading: Boolean) = copy(
@@ -27,5 +29,9 @@ internal data class DeviceListUiState(
     fun setError(error: Throwable?) = copy(
         error = error,
         isLoading = false
+    )
+
+    fun setShowLocationRationale(showLocationRationale: Boolean) = copy(
+        shouldShowLocationRationale = showLocationRationale
     )
 }

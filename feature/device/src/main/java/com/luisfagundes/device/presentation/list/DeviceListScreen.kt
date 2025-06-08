@@ -192,7 +192,7 @@ private fun WifiNetworkHeader(wifiName: String?, modifier: Modifier = Modifier) 
         Text(
             text = wifiName ?: stringResource(id = R.string.unknown_wifi_name),
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
         Icon(
             imageVector = Icons.Default.Wifi,

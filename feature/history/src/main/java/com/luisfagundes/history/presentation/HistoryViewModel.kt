@@ -5,10 +5,9 @@ import com.luisfagundes.domain.model.Device
 import com.luisfagundes.history.domain.usecase.DeleteDeviceUseCase
 import com.luisfagundes.history.domain.usecase.GetSavedDevicesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(

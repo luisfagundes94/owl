@@ -5,6 +5,7 @@ import com.luisfagundes.device.domain.usecase.SaveDevicesUseCase
 import com.luisfagundes.device.domain.usecase.ScanDevicesUseCase
 import com.luisfagundes.device.presentation.list.DeviceListViewModel
 import com.luisfagundes.domain.model.Device
+import com.luisfagundes.domain.repository.UserRepository
 import com.luisfagundes.domain.usecase.GetWifiSsidUseCase
 import com.luisfagundes.testing.MainDispatcherRule
 import io.mockk.coEvery
@@ -29,6 +30,7 @@ class DeviceListViewModelTest {
     private val scanDevicesUseCase: ScanDevicesUseCase = mockk(relaxed = true)
     private val saveDevicesUseCase: SaveDevicesUseCase = mockk(relaxed = true)
     private val getWifiSsidUseCase: GetWifiSsidUseCase = mockk(relaxed = true)
+    private val userRepository: UserRepository = mockk(relaxed = true)
 
     private lateinit var viewModel: DeviceListViewModel
 
@@ -37,7 +39,8 @@ class DeviceListViewModelTest {
         viewModel = DeviceListViewModel(
             scanDevicesUseCase,
             saveDevicesUseCase,
-            getWifiSsidUseCase
+            getWifiSsidUseCase,
+            userRepository
         )
     }
 

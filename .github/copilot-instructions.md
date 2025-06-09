@@ -8,6 +8,7 @@
 
 ## Version Control
 - Follow conventional commit message format.
+- Start commit messages with a verb in the present participle (ex: "adding", "removing", "changing", etc.
 - Update .gitignore for new build artifacts or dependencies.
 
 ## Code Style

@@ -61,8 +61,8 @@ dependencies {
     implementation(projects.feature.discover)
 
     implementation(projects.core.designsystem)
-    implementation(projects.core.domain)
-    implementation(projects.core.data)
+    implementation(projects.domain)
+    implementation(projects.data)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

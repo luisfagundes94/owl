@@ -38,7 +38,7 @@ android {
 
 dependencies {
     // Modules
-    implementation(projects.core.domain)
+    implementation(projects.domain)
     implementation(projects.core.designsystem)
     implementation(projects.core.testing)
     implementation(projects.core.common)

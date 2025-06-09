@@ -32,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.rememberLottieDynamicProperties
@@ -114,7 +115,10 @@ private fun ScanningAnimation(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.scanning))
-        val progress by animateLottieCompositionAsState(composition)
+        val progress by animateLottieCompositionAsState(
+            composition = composition,
+            iterations = LottieConstants.IterateForever
+        )
         val dynamicProperties = rememberLottieDynamicProperties(
             rememberLottieDynamicProperty(
                 property = LottieProperty.COLOR_FILTER,

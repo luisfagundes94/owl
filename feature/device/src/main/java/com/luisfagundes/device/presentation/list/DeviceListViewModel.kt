@@ -48,9 +48,14 @@ internal class DeviceListViewModel @Inject constructor(
         }
     }
 
-    fun onPermissionRationaleDismissed(dontAskAgain: Boolean) = viewModelScope.launch {
-        if (dontAskAgain) userRepository.setShowLocationRationale(false)
+    fun onPermissionRationaleDismissed(dontAskAgain: Boolean)  {
         hidePermissionRationale()
+
+        if (dontAskAgain) {
+            viewModelScope.launch {
+                userRepository.setShowLocationRationale(false)
+            }
+        }
     }
 
     fun hidePermissionRationale() {

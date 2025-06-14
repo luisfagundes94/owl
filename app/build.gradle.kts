@@ -58,12 +58,11 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.common)
     implementation(projects.core.testing)
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
 
     implementation(projects.feature.device)
     implementation(projects.feature.history)
-
-    implementation(projects.domain)
-    implementation(projects.data)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)

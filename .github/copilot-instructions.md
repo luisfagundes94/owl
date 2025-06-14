@@ -7,7 +7,7 @@
 - Use secure coding practices.
 
 ## Version Control
-- Follow conventional commit message format.
+- Always starts the commit message with a verb in present participle (refactoring, fixing, etc).
 - Update .gitignore for new build artifacts or dependencies.
 
 ## Code Style

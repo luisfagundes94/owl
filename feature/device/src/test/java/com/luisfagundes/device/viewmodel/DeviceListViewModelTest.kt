@@ -61,12 +61,12 @@ class DeviceListViewModelTest {
         // Given
         coEvery { scanDevicesUseCase.invoke() } returns flowOf(devices)
 
-        // When & Then
+        // When
+        viewModel.scanDevices()
+
+        // Then
         viewModel.uiState.test {
             assertEquals(initialUiState, awaitItem())
-
-            viewModel.scanDevices()
-
             assertEquals(initialUiState.setLoading(true), awaitItem())
             assertEquals(initialUiState.setDevices(devices), awaitItem())
 
@@ -82,12 +82,11 @@ class DeviceListViewModelTest {
         val scanError = RuntimeException("Scan failed")
         coEvery { scanDevicesUseCase.invoke() } returns flow { throw scanError }
 
-        // When & Then
+        viewModel.scanDevices()
+
+        // Then
         viewModel.uiState.test {
             assertEquals(initialUiState, awaitItem())
-
-            viewModel.scanDevices()
-
             assertEquals(initialUiState.setLoading(true), awaitItem())
             assertEquals(initialUiState.setError(scanError), awaitItem())
 
@@ -101,12 +100,12 @@ class DeviceListViewModelTest {
         val testSsid = "MyWifi"
         coEvery { getWifiSsidUseCase.invoke() } returns flowOf(testSsid)
 
-        // When & Then
+        // When
+        viewModel.getWifiSsid()
+
+        // Then
         viewModel.uiState.test {
             assertEquals(initialUiState, awaitItem())
-
-            viewModel.getWifiSsid()
-
             assertEquals(initialUiState.setWifiName(testSsid), awaitItem())
 
             cancelAndIgnoreRemainingEvents()
@@ -116,20 +115,16 @@ class DeviceListViewModelTest {
     @Test
     fun `loadPermissionRationale updates state correctly`() = runTest {
         // Given
-        val shouldShowRationale = true
-        coEvery { userRepository.shouldShowLocationRationale() } returns
-                flowOf(shouldShowRationale)
+        val showRationale = true
+        coEvery { userRepository.shouldShowLocationRationale() } returns flowOf(showRationale)
 
-        // When & Then
+        // When
+        viewModel.loadPermissionRationaleState()
+
+        // Then
         viewModel.uiState.test {
             assertEquals(initialUiState, awaitItem())
-
-            viewModel.loadPermissionRationaleState()
-
-            assertEquals(
-                initialUiState.setShowLocationRationale(shouldShowRationale),
-                awaitItem()
-            )
+            assertEquals(initialUiState.setShowLocationRationale(showRationale), awaitItem())
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -151,6 +146,7 @@ class DeviceListViewModelTest {
 
         viewModel.uiState.test {
             assertEquals(initialUiState.setShowLocationRationale(false), awaitItem())
+
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -166,6 +162,7 @@ class DeviceListViewModelTest {
 
         viewModel.uiState.test {
             assertEquals(initialUiState.setShowLocationRationale(false), awaitItem())
+
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -181,6 +178,7 @@ class DeviceListViewModelTest {
 
         viewModel.uiState.test {
             assertEquals(initialUiState.setShowLocationRationale(false), awaitItem())
+
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -190,6 +188,7 @@ class DeviceListViewModelTest {
         // When & Then
         viewModel.uiState.test {
             assertEquals(initialUiState, awaitItem())
+
             cancelAndIgnoreRemainingEvents()
         }
     }

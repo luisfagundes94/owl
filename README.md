@@ -22,13 +22,13 @@ A modern Android application for scanning and listing devices on the local netwo
 
 ## Tech Stack
 
-- **Kotlin**
-- **Jetpack Compose**
-- **Hilt (Dependency Injection)**
-- **DataStore (Local Preferences)**
-- **Room (Local Database)**
-- **Coroutines & Flow**
-- **JUnit, MockK, Turbine** for testing
+- **Kotlin** (Programming Language)
+- **Jetpack Compose** (UI toolkit)
+- **Hilt** (Dependency Injection)
+- **DataStore** (Local Preferences)
+- **Room **(Local Database)
+- **Coroutines & Flow** (Asynchronous programming)
+- **JUnit, MockK, Turbine** (Unit Testing)
 
 ## Project Structure
 

@@ -55,12 +55,13 @@ android {
 dependencies {
     // Modules
     implementation(projects.core.network)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.common)
+    implementation(projects.core.testing)
 
     implementation(projects.feature.device)
     implementation(projects.feature.history)
-    implementation(projects.feature.discover)
 
-    implementation(projects.core.designsystem)
     implementation(projects.domain)
     implementation(projects.data)
 

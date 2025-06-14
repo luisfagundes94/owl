@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.luisfagundes.device.navigation.DeviceListRoute
 import com.luisfagundes.device.navigation.deviceListScreen
-import com.luisfagundes.discover.navigation.discoverScreen
 import com.luisfagundes.history.navigation.historyScreen
 import com.luisfagundes.owl.ui.OwlAppState
 
@@ -20,6 +19,5 @@ fun OwlNavHost(appState: OwlAppState, modifier: Modifier = Modifier) {
     ) {
         deviceListScreen()
         historyScreen()
-        discoverScreen()
     }
 }

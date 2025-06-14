@@ -28,7 +28,6 @@ rootProject.name = "owl"
 include(":app")
 include(":feature:device")
 include(":feature:history")
-include(":feature:discover")
 include(":core:designsystem")
 include(":core:network")
 include(":domain")

@@ -48,7 +48,7 @@ internal class DeviceListViewModel @Inject constructor(
         }
     }
 
-    fun onPermissionRationaleDismissed(dontAskAgain: Boolean)  {
+    fun onPermissionRationaleDismissed(dontAskAgain: Boolean) {
         hidePermissionRationale()
 
         if (dontAskAgain) {

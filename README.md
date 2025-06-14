@@ -33,8 +33,8 @@ A modern Android application for scanning and listing devices on the local netwo
 ## Project Structure
 
 - `app/` - Main application module (entry point, DI setup)
-- `domain/` - Shared domain layer (use cases, business logic, models)
-- `data/` - Shared data layer (repositories, data sources, models)
+- `core/domain/` - Shared domain layer (use cases, business logic, models)
+- `core/data/` - Shared data layer (repositories, data sources, models)
 - `core/common/` - Shared utilities, extensions, and base classes
 - `core/designsystem/` - Design system (UI components, themes, styles)
 - `core/network/` - Network utilities (scanner, connectivity, wifi)

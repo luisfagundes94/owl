@@ -12,9 +12,11 @@ import com.luisfagundes.testing.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -27,24 +29,24 @@ class DeviceListViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val scanDevicesUseCase: ScanDevicesUseCase = mockk()
+    private val scanDevicesUseCase: ScanDevicesUseCase = mockk(relaxed = true)
     private val saveDevicesUseCase: SaveDevicesUseCase = mockk(relaxed = true)
-    private val getWifiSsidUseCase: GetWifiSsidUseCase = mockk()
+    private val getWifiSsidUseCase: GetWifiSsidUseCase = mockk(relaxed = true)
     private val userRepository: UserRepository = mockk()
 
-    private val defaultUiState = DeviceListUiState()
+    private val initialUiState = DeviceListUiState()
+    private val devices = listOf(Device("192.168.1.2", "host", true))
 
     private lateinit var viewModel: DeviceListViewModel
 
     @Before
     fun setUp() {
-        coEvery { userRepository.shouldShowLocationRationale() } returns flowOf(
-            defaultUiState.shouldShowPermissionRationale
-        )
-        coEvery { scanDevicesUseCase.invoke() } returns flowOf(
-            defaultUiState.devices
-        )
+        coEvery { scanDevicesUseCase.invoke() } returns flowOf(initialUiState.devices)
         coEvery { saveDevicesUseCase.invoke(any()) } returns Unit
+        coEvery { userRepository.setShowLocationRationale(any()) } returns Unit
+        coEvery { userRepository.shouldShowLocationRationale() } returns flowOf(
+            initialUiState.shouldShowPermissionRationale
+        )
 
         viewModel = DeviceListViewModel(
             scanDevicesUseCase,
@@ -55,76 +57,139 @@ class DeviceListViewModelTest {
     }
 
     @Test
-    fun `when scan succeeds, should update state with devices`() = runTest {
-            // Given
-            val testDevices = listOf(Device("192.168.1.2", "host", true))
-            coEvery { scanDevicesUseCase.invoke() } returns flow { emit(testDevices) }
-            coEvery { saveDevicesUseCase.invoke(testDevices) } returns Unit
-
-            viewModel.uiState.test {
-                // Then
-                assertEquals(defaultUiState, awaitItem())
-
-                // When
-                viewModel.scanDevices()
-
-                // Then
-                val expectedLoadingState = defaultUiState.setLoading(true)
-                assertEquals(expectedLoadingState, awaitItem())
-
-                // Then
-                val expectedSuccessState = defaultUiState.setDevices(testDevices)
-                assertEquals(expectedSuccessState, awaitItem())
-
-                // Then
-                coVerify { saveDevicesUseCase.invoke(testDevices) }
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
-
-    @Test
-    fun `when scan fails, should update state with error`() = runTest {
+    fun `scan success updates state with devices`() = runTest {
         // Given
-        val scanError = RuntimeException("Scan failed")
-        coEvery { scanDevicesUseCase.invoke() } returns flow { throw scanError }
+        coEvery { scanDevicesUseCase.invoke() } returns flowOf(devices)
 
+        // When & Then
         viewModel.uiState.test {
-            // Then
-            assertEquals(defaultUiState, awaitItem())
+            assertEquals(initialUiState, awaitItem())
 
-            // When
             viewModel.scanDevices()
 
-            // Then
-            val expectedLoadingState = defaultUiState.setLoading(true)
-            assertEquals(expectedLoadingState, awaitItem())
+            assertEquals(initialUiState.setLoading(true), awaitItem())
+            assertEquals(initialUiState.setDevices(devices), awaitItem())
 
-            // Then
-            val expectedErrorState = defaultUiState.setError(scanError)
-            assertEquals(expectedErrorState, awaitItem())
+            coVerify { saveDevicesUseCase.invoke(devices) }
 
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `when getWifiSsid is called, should update state with wifi name`() = runTest {
+    fun `scan failure updates state with error`() = runTest {
+        // Given
+        val scanError = RuntimeException("Scan failed")
+        coEvery { scanDevicesUseCase.invoke() } returns flow { throw scanError }
+
+        // When & Then
+        viewModel.uiState.test {
+            assertEquals(initialUiState, awaitItem())
+
+            viewModel.scanDevices()
+
+            assertEquals(initialUiState.setLoading(true), awaitItem())
+            assertEquals(initialUiState.setError(scanError), awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `getWifiSsid updates state with wifi name`() = runTest {
         // Given
         val testSsid = "MyWifi"
         coEvery { getWifiSsidUseCase.invoke() } returns flowOf(testSsid)
 
+        // When & Then
         viewModel.uiState.test {
-            // Then
-            assertEquals(defaultUiState, awaitItem())
+            assertEquals(initialUiState, awaitItem())
 
-            // When
             viewModel.getWifiSsid()
 
-            // Then
-            val expectedSsidState = defaultUiState.setWifiName(testSsid)
-            assertEquals(expectedSsidState, awaitItem())
+            assertEquals(initialUiState.setWifiName(testSsid), awaitItem())
 
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `loadPermissionRationale updates state correctly`() = runTest {
+        // Given
+        val shouldShowRationale = true
+        coEvery { userRepository.shouldShowLocationRationale() } returns
+                flowOf(shouldShowRationale)
+
+        // When & Then
+        viewModel.uiState.test {
+            assertEquals(initialUiState, awaitItem())
+
+            viewModel.loadPermissionRationaleState()
+
+            assertEquals(
+                initialUiState.setShowLocationRationale(shouldShowRationale),
+                awaitItem()
+            )
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `dismissing permission rationale with dontAskAgain updates repository`() = runTest {
+        // Given
+        val booleanSlot = slot<Boolean>()
+        coEvery { userRepository.setShowLocationRationale(capture(booleanSlot)) } returns Unit
+
+        // When
+        viewModel.onPermissionRationaleDismissed(dontAskAgain = true)
+        advanceUntilIdle()
+
+        // Then
+        coVerify { userRepository.setShowLocationRationale(false) }
+        assertEquals(false, booleanSlot.captured)
+
+        viewModel.uiState.test {
+            assertEquals(initialUiState.setShowLocationRationale(false), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `dismissing permission rationale without dontAskAgain only hides UI`() = runTest {
+        // When
+        viewModel.onPermissionRationaleDismissed(dontAskAgain = false)
+        advanceUntilIdle()
+
+        // Then
+        coVerify(exactly = 0) { userRepository.setShowLocationRationale(any()) }
+
+        viewModel.uiState.test {
+            assertEquals(initialUiState.setShowLocationRationale(false), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `hidePermissionRationale updates UI state`() = runTest {
+        // Given
+        coEvery { userRepository.shouldShowLocationRationale() } returns flowOf(true)
+
+        // When & Then
+        viewModel.hidePermissionRationale()
+        advanceUntilIdle()
+
+        viewModel.uiState.test {
+            assertEquals(initialUiState.setShowLocationRationale(false), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `initial state has default values`() = runTest {
+        // When & Then
+        viewModel.uiState.test {
+            assertEquals(initialUiState, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }

@@ -28,7 +28,7 @@ A modern Android application for scanning and listing devices on the local netwo
 - **Jetpack Compose** (UI toolkit)
 - **Hilt** (Dependency Injection)
 - **DataStore** (Local Preferences)
-- **Room **(Local Database)
+- **Room** (Local Database)
 - **Coroutines & Flow** (Asynchronous programming)
 - **JUnit, MockK, Turbine** (Unit Testing)
 

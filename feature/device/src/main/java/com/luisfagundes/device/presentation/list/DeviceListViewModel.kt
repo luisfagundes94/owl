@@ -22,7 +22,7 @@ internal class DeviceListViewModel @Inject constructor(
     initialState = DeviceListUiState()
 ) {
     init {
-        loadPermissionRationaleState()
+        loadPermissionState()
         scanDevices()
     }
 
@@ -42,7 +42,7 @@ internal class DeviceListViewModel @Inject constructor(
         }
     }
 
-    fun loadPermissionRationaleState() = viewModelScope.launch {
+    fun loadPermissionState() = viewModelScope.launch {
         userRepository.shouldShowLocationRationale().collect { shouldShow ->
             updateState { setShowLocationRationale(shouldShow) }
         }

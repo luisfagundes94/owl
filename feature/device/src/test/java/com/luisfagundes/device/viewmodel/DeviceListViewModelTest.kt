@@ -119,7 +119,7 @@ class DeviceListViewModelTest {
         coEvery { userRepository.shouldShowLocationRationale() } returns flowOf(showRationale)
 
         // When
-        viewModel.loadPermissionRationaleState()
+        viewModel.loadPermissionState()
 
         // Then
         viewModel.uiState.test {

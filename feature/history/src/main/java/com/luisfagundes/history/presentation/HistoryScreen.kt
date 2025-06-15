@@ -47,6 +47,7 @@ private fun HistoryScreen(
     Box(
         modifier = modifier
     ) {
+        @Suppress("KotlinConstantConditions")
         when {
             uiState.devices.isNotEmpty() -> SavedDevices(
                 devices = uiState.devices,

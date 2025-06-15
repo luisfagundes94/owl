@@ -5,4 +5,7 @@
     <string name="device_history">Device History</string>
     <string name="delete_device">Delete</string>
     <string name="clear_all_history">clear all history</string>
+    <string name="see_wifi_router_details">See wifi router details</string>
+    <string name="wifi_router_history">History</string>
+    <string name="wifi_router_icon_description">Wifi Router</string>
 </resources>

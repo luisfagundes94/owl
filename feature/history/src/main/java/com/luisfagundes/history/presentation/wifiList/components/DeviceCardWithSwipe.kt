@@ -1,4 +1,4 @@
-package com.luisfagundes.history.presentation.components
+package com.luisfagundes.history.presentation.wifiList.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

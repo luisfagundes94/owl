@@ -1,11 +1,11 @@
 package com.luisfagundes.history.viewmodel
 
 import app.cash.turbine.test
-import com.luisfagundes.domain.model.Device
+import com.luisfagundes.domain.model.WifiRouter
 import com.luisfagundes.history.domain.usecase.DeleteDeviceUseCase
-import com.luisfagundes.history.domain.usecase.GetSavedDevicesUseCase
-import com.luisfagundes.history.presentation.HistoryUiState
-import com.luisfagundes.history.presentation.HistoryViewModel
+import com.luisfagundes.history.domain.usecase.GetWifiRouterListUseCase
+import com.luisfagundes.history.presentation.wifiList.WifiRouterListUiState
+import com.luisfagundes.history.presentation.wifiList.WifiRouterListViewModel
 import com.luisfagundes.testing.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -24,56 +24,53 @@ class HistoryViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val getSavedDevicesUseCase: GetSavedDevicesUseCase = mockk()
+    private val getWifiRouterListUseCase = mockk<GetWifiRouterListUseCase>(relaxed = true)
     private val deleteDeviceUseCase: DeleteDeviceUseCase = mockk(relaxed = true)
 
-    private val initialUiState = HistoryUiState()
-    private val devices = listOf(Device("192.168.1.2", "host", true))
+    private val initialUiState = WifiRouterListUiState()
+    private val wifiRouterList = listOf(
+        WifiRouter(
+            ssid = "FAGUNDES_5G",
+            devices = emptyList()
+        ),
+        WifiRouter(
+            ssid = "BERALDI",
+            devices = emptyList()
+        )
+    )
 
-    private lateinit var viewModel: HistoryViewModel
+    private lateinit var viewModel: WifiRouterListViewModel
 
     @Before
     fun setUp() {
-        coEvery { getSavedDevicesUseCase.invoke() } returns flowOf(emptyList())
+        coEvery { getWifiRouterListUseCase.invoke() } returns flowOf(emptyList())
 
-        viewModel = HistoryViewModel(
-            getSavedDevicesUseCase,
-            deleteDeviceUseCase
+        viewModel = WifiRouterListViewModel(
+            getWifiRouterListUseCase = getWifiRouterListUseCase,
+            dispatcher = mainDispatcherRule.testDispatcher
         )
     }
 
     @Test
-    fun `init calls getSavedDevices`() = runTest {
-        coVerify { getSavedDevicesUseCase.invoke() }
+    fun `init calls getWifiRouterList`() = runTest {
+        coVerify { getWifiRouterListUseCase.invoke() }
     }
 
     @Test
-    fun `getSavedDevices updates state with devices`() = runTest {
+    fun `getWifiRouterList updates state with wifi router list`() = runTest {
         // Given
-        coEvery { getSavedDevicesUseCase.invoke() } returns flowOf(devices)
+        coEvery { getWifiRouterListUseCase.invoke() } returns flowOf(wifiRouterList)
 
         // When
-        viewModel.getSavedDevices()
+        viewModel.getWifiRouterList()
 
         // Then
         viewModel.uiState.test {
             assertEquals(initialUiState, awaitItem())
-            assertEquals(initialUiState.setDevices(devices), awaitItem())
+            assertEquals(initialUiState.setWifiRouterList(wifiRouterList), awaitItem())
 
             cancelAndIgnoreRemainingEvents()
         }
-    }
-
-    @Test
-    fun `deleteDevice calls deleteDeviceUseCase`() = runTest {
-        // Given
-        val device = Device("192.168.1.2", "host", true)
-
-        // When
-        viewModel.deleteDevice(device)
-
-        // Then
-        coVerify { deleteDeviceUseCase.invoke(device) }
     }
 
     @Test

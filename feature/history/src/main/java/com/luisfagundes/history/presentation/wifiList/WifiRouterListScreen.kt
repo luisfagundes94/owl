@@ -1,6 +1,6 @@
-package com.luisfagundes.history.presentation
+package com.luisfagundes.history.presentation.wifiList
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,43 +20,33 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.luisfagundes.designsystem.theme.spacing
-import com.luisfagundes.domain.model.Device
+import com.luisfagundes.domain.model.WifiRouter
 import com.luisfagundes.history.R
-import com.luisfagundes.history.presentation.components.DeviceCardWithSwipe
-import com.luisfagundes.history.presentation.components.DeviceHistoryHeader
+import com.luisfagundes.history.presentation.wifiList.components.WifiRouterCard
 
 @Composable
-internal fun HistoryRoute(viewModel: HistoryViewModel = hiltViewModel()) {
+internal fun HistoryRoute(viewModel: WifiRouterListViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HistoryScreen(
         uiState = uiState,
-        onDeleteDevice = viewModel::deleteDevice,
-        onDeleteAll = {},
         modifier = Modifier.fillMaxSize()
     )
 }
 
 @Composable
-private fun HistoryScreen(
-    uiState: HistoryUiState,
-    onDeleteDevice: (Device) -> Unit,
-    onDeleteAll: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun HistoryScreen(uiState: WifiRouterListUiState, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
     ) {
         @Suppress("KotlinConstantConditions")
         when {
-            uiState.devices.isNotEmpty() -> SavedDevices(
-                devices = uiState.devices,
-                onDeleteDevice = onDeleteDevice,
-                onDeleteAll = onDeleteAll,
+            uiState.wifiRouterList.isNotEmpty() -> WifiRouterList(
+                wifiRouterList = uiState.wifiRouterList,
                 modifier = Modifier.fillMaxWidth()
             )
 
-            uiState.devices.isEmpty() -> EmptyMessage(
+            uiState.wifiRouterList.isEmpty() -> EmptyMessage(
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center)
@@ -80,35 +70,31 @@ private fun EmptyMessage(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SavedDevices(
-    devices: List<Device>,
-    onDeleteDevice: (Device) -> Unit,
-    onDeleteAll: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun WifiRouterList(wifiRouterList: List<WifiRouter>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
     ) {
         stickyHeader {
-            DeviceHistoryHeader(
-                onDeleteAll = onDeleteAll,
+            Text(
+                text = stringResource(R.string.wifi_router_history),
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(MaterialTheme.spacing.default)
             )
         }
         itemsIndexed(
-            items = devices,
-            key = { _, device -> device.ipAddress }
-        ) { index, device ->
-            DeviceCardWithSwipe(
-                device = device,
-                onDeleteDevice = onDeleteDevice,
+            items = wifiRouterList,
+            key = { _, wifiRouter -> wifiRouter.ssid }
+        ) { index, wifiRouter ->
+            WifiRouterCard(
+                name = wifiRouter.ssid,
                 modifier = Modifier
-                    .animateContentSize()
-                    .animateItem()
+                    .clickable {}
+                    .fillMaxWidth()
+                    .padding(MaterialTheme.spacing.default)
             )
-            if (index != devices.lastIndex) {
+            if (index != wifiRouterList.lastIndex) {
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = MaterialTheme.spacing.default)
                 )
@@ -116,4 +102,3 @@ private fun SavedDevices(
         }
     }
 }
-

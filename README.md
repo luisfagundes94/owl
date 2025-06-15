@@ -5,13 +5,11 @@ A modern Android application for scanning and listing devices on the local netwo
 ## Screenshots
 ### Light Mode
 <p float="left">
-  <img src="https://github.com/luisfagundes94/owl/blob/master/screenshots/light_device_list_screen.png" width="200" /> 
   <img src="https://github.com/luisfagundes94/owl/blob/master/screenshots/light_wifi_router_list_screen.png" width="200" /> 
 </p>
 
 ### Dark Mode
 <p float="left">
-  <img src="https://github.com/luisfagundes94/owl/blob/master/screenshots/dark_device_list_screen.png" width="200" /> 
   <img src="https://github.com/luisfagundes94/owl/blob/master/screenshots/dark_wifi_router_list_screen.png" width="200" /> 
 </p>
 

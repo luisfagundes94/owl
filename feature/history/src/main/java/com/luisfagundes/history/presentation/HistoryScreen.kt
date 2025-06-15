@@ -90,10 +90,10 @@ private fun SavedDevices(
     ) {
         stickyHeader {
             DeviceHistoryHeader(
+                onDeleteAll = onDeleteAll,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.default),
-                onDeleteAll = onDeleteAll
+                    .padding(MaterialTheme.spacing.default)
             )
         }
         itemsIndexed(
